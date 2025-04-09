@@ -1,0 +1,340 @@
+/* *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.full-page{
+    display: grid;
+    grid-template-rows: 10% auto;
+}
+
+.middle-div{
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    width: 100%;
+    background-color: skyblue;
+}
+
+.right-middle-div{
+    display: grid;
+    grid-template-columns: 30% auto;
+}
+
+.upper-row{
+    border: 2px solid black;
+}
+
+.left-middle-div{
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    padding: 10px;
+}
+
+.remote-videos{
+    border: 2px solid black;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.chatting{
+    border: 2px solid black;
+}
+
+.remote-video-wrapper {
+    width: 200px;
+    height: 150px;
+    background: black;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.remote-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}*/
+.gr-cntainer{
+  display: grid;
+  grid-template-rows: 12% auto;
+  height: 100vh;
+}
+.middle-gr-row{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+    height: 100%;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid black;
+}
+.host-left-middle-div2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  height: 100%; /* Initially takes full width */
+  transition: width 0.3s ease-in-out;
+}
+.host-left-middle-div2.shrink {
+  width: 70%; /* Shrinks to 60% when chat is opened */
+}
+.host-remote-videos2{
+display: flex;
+flex-direction: column;
+}
+.app2{
+  width: 80%;
+  transition: width 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.video-container2 {
+  width: 100%; /* Start at full width */
+  display: flex;
+  justify-content: center;
+  /* transition: width 0.3s ease-in-out; */
+}
+.local-video-container2 {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.local-video2 {
+  width: 100%;
+  height: 100vh;
+}
+
+/* When a remote user joins, shrink the video container */
+.video-container2.shrink {
+  width: 70%; /* Adjust width dynamically when remote user joins */
+}
+.host-full-page{
+    display: grid;
+    grid-template-rows: 12% auto;
+    height: 100vh;
+}
+.host-upper-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.host-middle-div {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid black;
+  }
+  
+  .host-left-middle-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%; /* Initially takes full width */
+    transition: width 0.3s ease-in-out;
+  }
+  .host-upper-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .host-left-middle-div.shrink {
+    width: 70%; /* Shrinks to 60% when chat is opened */
+  }
+  .app{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+  }
+ .user-list{
+  /* height: 100vh; */
+    border: 2px solid black;
+    text-align: left;
+  }
+  .controls-container {
+    display: flex;
+    justify-content: center;
+} 
+/* .bottom-controls{
+    text-align: center;
+}
+.bottom-controls button{
+  margin-right: 10px;
+}
+.bottom-controls img{
+  border: 1px solid black;
+  border-radius: 50%;
+  text-align-last: right;
+} */
+
+.bottom-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  background: #222; /* Dark background for modern UI */
+  border-radius: 10px;
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.join-btn, .disconnect-btn {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.disconnect-btn {
+  background: red;
+}
+
+.join-btn:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+.control-icon {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.control-icon:hover {
+  transform: scale(1.1);
+}
+
+.notification-dot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}
+
+.whiteboard-btn {
+  background: blue;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.whiteboard-btn.active {
+  background: red;
+}
+
+.popup {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.video-container{
+  /* height: 100%; */
+  display: flex;
+}
+  .local-video-container {
+    width: 100%; 
+    height: 100%;
+    /* max-width: 600px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.local-video {
+  width: 100%;
+  height: 100vh;
+}
+
+  .host-chatting {
+    width: 0;
+    overflow: hidden;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .host-chatting.visible {
+    width: 30%; /* Expands to 40% when chat is visible */
+  }
+  .host-remote-videos{
+    display: flex;
+    /* flex-direction: column; */
+    /* padding: 10px;
+    gap: 5px; */
+  }
+
+  .remote-video-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures the overlay stays inside */
+  }
+  
+  .remote-video {
+    width: 200px;
+    height: 150px;
+    border-radius: 8px;
+    display: block;
+  }
+  
+  .remote-user-info {
+   /* position:absolute; */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    /* padding: 5px; */
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; 
+  }
+  
+  .mic-icon {
+    width: 16px;
+    height: 16px;
+    filter: invert(1); /* Makes the icon white */
+  }
+  

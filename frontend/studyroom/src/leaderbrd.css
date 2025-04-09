@@ -1,0 +1,66 @@
+/* General Styles */
+.mobody {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Leaderboard Container */
+  .leaderboard-container {
+    width: 90%;
+    max-width: 800px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .moh1 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Table Styling */
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .leaderboard-table th, .leaderboard-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .leaderboard-table th {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .leaderboard-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .leaderboard-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .leaderboard-container {
+      width: 100%;
+      padding: 15px;
+    }
+    .leaderboard-table th, .leaderboard-table td {
+      padding: 8px;
+    }
+  }
+  

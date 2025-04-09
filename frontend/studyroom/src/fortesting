@@ -1,0 +1,1481 @@
+  
+// //   io.on('connection', (socket) => {
+// //   console.log('New client connected:', socket.id);
+
+// // // Handle room creation
+// // socket.on('create-room', ({ roomId, password }) => {
+// //   rooms[roomId] = password; // Store password for the room
+// //   console.log(`Room ${roomId} created with password: ${password}`);
+// // });
+
+// // // Handle user joining a room
+// // socket.on('join-user', ({ userName, roomid, password }) => {
+// //   if (!rooms[roomid]) {
+// //     rooms[roomid] = { password, users: {} };
+// //   } else if (rooms[roomid].password !== password) {
+// //     socket.emit('password-error');
+// //     return;
+// //   }
+
+// //    // Ensure users object exists
+// //    if (!rooms[roomid].users) {
+// //     rooms[roomid].users = {};
+// //   }
+// //   rooms[roomid].users[socket.id] = userName; // ✅ Add user to room
+
+// //   socket.join(roomid);
+// //   console.log(`${userName} joined room ${roomid}`);
+// //   console.log("Emitting updated user list:", Object.values(rooms[roomid].users));
+// //   io.to(roomid).emit('joined',  { users: Object.values(rooms[roomid].users) }); // Send updated user list
+// // });
+
+
+// //   // Handle WebRTC signaling (Offer)
+// //   socket.on("offer", (data) => {
+// //     console.log("sent data",data);   
+// //       const { to, offer, roomid } = data;
+// //       console.log("teh roomid is",roomid);
+// //       console.log("Rooms object:", rooms);
+
+// //       if (rooms[roomid] && rooms[roomid].users[to]) {
+// //           io.to(to).emit("offer", { from: socket.id, offer });
+// //       } else {
+// //         console.warn(`❌ Offer failed: ${to} not found in room ${roomid}`);
+// //     }
+// //   });
+
+// //     // Handle new note
+// //     socket.on("newNoteAdded", ({ note, userName, roomId }) => {
+// //       console.log(`Note from ${userName} in ${roomId}: ${note}`);
+  
+// //       // Save note
+// //       if (!allNotes[roomId]) allNotes[roomId] = [];
+// //       allNotes[roomId].push(note);
+  
+// //       // Broadcast to others in room
+// //       socket.to(roomId).emit("newNoteAdded", { note, userName, roomId });
+// //     });
+
+// //      // 🔹 Handle File Upload Notification
+// //      socket.on("newFileUploaded", ({ roomId, userName ,file}) => {
+// //       console.log(`File uploaded in room ${roomId} by ${username},file ${file.name}`);
+
+// //        // Save file
+// //     if (!allFiles[roomId]) allFiles[roomId] = [];
+// //     allFiles[roomId].push(file);
+
+// //       // Notify all users in the same room except the sender
+// //       socket.to(roomId).emit("newFileUploaded", { username });
+// //   });
+
+// //   // Handle WebRTC signaling (Answer)
+// //   socket.on("answer", (data) => {
+// //       const { to, answer, roomid } = data;
+// //       if (rooms[roomid] && rooms[roomid].users[to]) {
+// //           io.to(to).emit("answer", { from: socket.id, answer });
+// //       }
+// //   });
+
+// //   // Handle ICE Candidate Exchange
+// //   socket.on("icecandidate", ({ candidate, to, roomid }) => {
+// //       if (rooms[roomid] && rooms[roomid].users[to]) {
+// //         console.log(`❄️ Sending ICE candidate to ${to} from ${socket.id}`);
+// //           io.to(to).emit("icecandidate", { from: socket.id, candidate });
+// //       } else {
+// //         console.warn(`❌ ICE candidate error: User ${to} not found in room ${roomid}`);
+// //     }
+// //   });
+
+
+
+
+// //   // Handle Call End
+// //   socket.on("call-ended", ({ userId, roomid }) => {
+// //       if (rooms[roomid] && rooms[roomid].users[userId]) {
+// //           io.to(userId).emit("call-ended", { from: socket.id });
+// //       }
+// //   });
+
+// //   // Handle User Registration
+// //   socket.on('register', (username) => {
+// //       if (username) {
+// //           users[username] = socket.id;
+// //           console.log(`Registered user: ${username} with ID: ${socket.id}`);
+// //       }
+// //   });
+
+// //   // Handle Messages to All
+// //   socket.on('msg-all', (message, sender) => {
+// //       socket.broadcast.emit('message', sender, message);
+// //       console.log(`Message '${message}' sent from ${sender} to All`);
+// //   });
+
+// //   // Handle Private Messages
+// //   socket.on('private-message', (target, message, sender) => {
+// //       const targetSocketId = users[target];
+// //       if (targetSocketId) {
+// //           io.to(targetSocketId).emit('message', sender, message);
+// //           console.log(`Private message sent from ${sender} to ${target}: ${message}`);
+// //       }
+// //   });
+
+// //   socket.on('group-message', (groupMembers, sender, message) => {
+// //     console.log(`Group Message from ${sender}: ${message} to ${groupMembers}`);
+  
+// //     groupMembers.forEach(target => {
+// //         const targetSocketId = users[target];
+// //         if (targetSocketId) {
+// //             io.to(targetSocketId).emit('message', sender, message);
+// //             console.log(`Message sent from ${sender} to ${target}: ${message}`);
+// //         } else {
+// //             console.log(`User ${target} not found.`);
+// //         }
+// //     });
+// //   });
+
+// //   // Handle User Disconnect
+// //   socket.on("disconnect", () => {
+// //       let removedFromRoom = false;
+
+// //       // Remove user from connected rooms
+// //       for (const roomId in connectedUsers) {
+// //           if (connectedUsers[roomId][socket.id]) {
+// //               delete connectedUsers[roomId][socket.id];
+// //               delete rooms[roomId].users[socket.id]; // Also remove from `rooms`
+
+// //               // Notify others in the room
+// //               io.to(roomId).emit("joined", connectedUsers[roomId]);
+
+// //               // Delete room if empty
+// //               if (Object.keys(rooms[roomId].users).length === 0) {
+// //                   delete connectedUsers[roomId];
+// //                   delete rooms[roomId];
+// //                   console.log(`Room ${roomId} deleted (empty).`);
+// //               }
+
+// //               removedFromRoom = true;
+// //               break;
+// //           }
+// //       }
+
+// //       // Remove user from global users list
+// //       for (const [username, id] of Object.entries(users)) {
+// //           if (id === socket.id) {
+// //               delete users[username];
+// //               console.log(`User ${username} disconnected.`);
+// //               break;
+// //           }
+// //       }
+
+// //       if (!removedFromRoom) {
+// //           console.log(`Client ${socket.id} disconnected.`);
+// //       }
+// //   });
+// // });
+
+  
+  
+  
+  
+//   // Handle new room ID creation
+//   useEffect(() => {
+//     if (roomid) {
+//       const newRoomId = roomid
+//       const baseUrl = window.location.origin;
+//       setGeneratedRoomId(`${baseUrl}/create-room/${newRoomId}`);
+//     }
+//   }, [roomid]);
+
+  
+//     // Main useEffect
+//     useEffect(() => {
+//       socketRef.current = io("http://localhost:10000");
+  
+//       socketRef.current.on("joined", (users) => {
+//         console.log("🔥 Received user list from server:", users);
+//         if (!users) {
+//           console.error("❌ No users received!");
+//           return;
+//         }
+//         handleUserListUpdate(users);
+//       });
+      
+//       // socketRef.current.on('joined', handleUserListUpdate);
+//       socketRef.current.on('offer', handleOffer);
+//       socketRef.current.on('answer', handleAnswer);
+//       socketRef.current.on('icecandidate', handleIceCandidate);
+//       socketRef.current.on('call-ended', handleEndCall);
+//       socketRef.current.on('password-error', () => {
+//         alert('Incorrect room password. Access denied.');
+//       });
+  
+//       // Cleanup on unmount
+//       return () => {
+//         socketRef.current.disconnect();
+//         Object.values(peerConnections.current).forEach((pc) => pc.close());
+//       };
+//     }, [roomid]);
+ 
+
+//  console.log("Now all users are",allUsers);
+ 
+//   useEffect(() => {
+//     // Listen for file upload notifications
+//     socketRef.current.on("newFileUploaded", ({ username }) => {
+//       console.log(`New file uploaded by ${username}`);
+//       setHasNewFile(true); // Show notification
+//     });
+
+//     return () => {
+//       socketRef.current.off("newFileUploaded");
+//     };
+//   }, []);
+
+//   useEffect(() => {
+//     socketRef.current.on("mic-status-update", ({ userId, isMicOn }) => {
+//       setUserAudioStatus((prev) => ({
+//         ...prev,
+//         [userId]: isMicOn,
+//       }));
+//     });
+  
+//     return () => {
+//       socketRef.current.off("mic-status-update");
+//     };
+//   }, []);
+//   useEffect(() => {
+//     let timer;
+//     if (isRunning) {
+//       timer = setInterval(() => {
+//         setTime((prevTime) => prevTime + 1);
+//       }, 1000);
+//     } else {
+//       clearInterval(timer);
+//     }
+//     return () => clearInterval(timer);
+//   }, [isRunning]);
+
+//   useEffect(() => {
+//     // Update the mic status whenever `allUsers` changes
+//     const updatedAudioStatus = Object.entries(allUsers).reduce((acc, [userId, user]) => {
+//       acc[userId] = user.audioEnabled||false; // Assuming `audioEnabled` is updated dynamically
+//       return acc;
+//     }, {});
+
+//     setUserAudioStatus(updatedAudioStatus);
+//   }, [allUsers]); // Runs whenever `allUsers` updates
+
+//   const copyToClipboard = () => {
+//     if (generatedRoomId) {
+//       navigator.clipboard.writeText(generatedRoomId).then(() => {
+//         setCopySuccess('Link Copied!');
+//       }).catch(err => {
+//         console.error('Failed to copy link:', err);
+//       });
+//     } else {
+//       console.warn("No generated room ID to copy.");
+//     }
+//   };
+  
+//   // Function to handle new messages from ChatSection
+//   const handleNewMessage = () => {
+//     if (!showChat) {
+//       setHasNewMessage(true);
+//     }
+//   };
+
+//   const toggleChat = () => {
+//     setShowChat(!showChat);
+//     if (!showChat) {
+//       setHasNewMessage(false); // Clear the notification when opening chat
+//     }
+//     setShowWhiteboard(false); // Hide Whiteboard when Chat is open
+//   };
+  
+//   const startLocalVideo = async () => {
+//     try {
+//       const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+//       localStreamRef.current = stream;
+//       if (localVideoRef.current) {
+//         localVideoRef.current.srcObject = stream;
+//       }
+//       return stream;
+//     } catch (error) {
+//       console.error('Error accessing media devices:', error);
+//     }
+//   };
+
+//   // const handleUserListUpdate = (users) => {
+//   //   setAllUsers(users);
+//   //   setUsername(socketRef.current.id);
+//   //   // Remove users who have disconnected to prevent empty divs
+//   //   Object.keys(remoteVideosRef.current).forEach((userId) => {
+//   //     if (!users[userId]) {
+//   //       delete remoteVideosRef.current[userId];
+//   //     }
+//   //   });
+//   // };
+
+//   const handleUserListUpdate = (users) => {
+//     console.log("Dekhiba users",users);
+//     console.log("Users object:", users);
+// console.log("Extracted user IDs:", Object.keys(users));
+//     setAllUsers(users);
+//     // setUsername(userName);
+  
+//     // Remove users who have disconnected
+//     Object.keys(remoteVideosRef.current).forEach((userId) => {
+//       if (!users[userId]) {
+//         delete remoteVideosRef.current[userId];
+//       }
+//     });
+  
+//     // Automatically start calls with new users
+//     Object.keys(users).forEach((userId) => {
+//       if (userId !== username && !peerConnections.current[userId]) {
+//         startCall(userId); // Start call automatically
+//       }
+//     });
+//   };
+  
+//   const createPeerConnection = (userId,roomid) => {
+//     const peerConnection = new RTCPeerConnection({ iceServers: ICE_SERVERS });
+//     // localStreamRef.current.getTracks().forEach(track => {
+//     //   peerConnection.addTrack(track, localStreamRef.current);
+//     // });
+//     if (localStreamRef.current) {
+//       localStreamRef.current.getTracks().forEach(track => {
+//           peerConnection.addTrack(track, localStreamRef.current);
+//       });
+//   } else {
+//       console.warn("localStreamRef is null, skipping track addition.");
+//   }
+
+//     peerConnection.ontrack = (event) => {
+//       console.log("Assigning stream to video element for user:", userId);
+// console.log("Received stream:", event.streams[0]);
+
+//       if (!remoteVideosRef.current[userId]) {
+//         remoteVideosRef.current[userId] = document.createElement('video');
+//         remoteVideosRef.current[userId].autoplay = true;
+//         remoteVideosRef.current[userId].playsInline = true;
+//       }
+
+//       const remoteContainer = document.getElementById('remoteVideosContainer');
+//       if (remoteContainer && !remoteContainer.contains(remoteVideosRef.current[userId])) {
+//         remoteContainer.appendChild(remoteVideosRef.current[userId]);
+//       }
+
+//       remoteVideosRef.current[userId].srcObject = event.streams[0];
+
+//       event.streams[0].getAudioTracks().forEach((track) => {
+//         setUserAudioStatus((prev) => ({
+//           ...prev,
+//           [userId]: track.enabled, // true = mic on, false = mic off
+//         }));
+    
+//         track.onmute = () => {
+//           console.log(`User ${userId} muted`);
+//           setUserAudioStatus((prev) => ({ ...prev, [userId]: false }));
+//         };
+    
+//         track.onunmute = () => {
+//           console.log(`User ${userId} unmuted`);
+//           setUserAudioStatus((prev) => ({ ...prev, [userId]: true }));
+//         };
+//       });
+//     };
+
+//     peerConnection.onicecandidate = (event) => {
+//       if (event.candidate) {
+//         socketRef.current.emit('icecandidate', { 
+//           candidate: event.candidate, 
+//           to: userId, 
+//           roomid  // ✅ send roomId properly
+//         });
+//       }
+//     };
+
+//     return peerConnection;
+//   };
+
+//   // const handleOffer = async ({ from, offer }) => {
+//   //   if (peerConnections.current[from]) {
+//   //     console.warn(`PeerConnection with ${from} already exists.`);
+//   //     return;
+//   //   }
+
+//   //   peerConnections.current[from] = createPeerConnection(from);
+    
+//   //   // Only set remote description if the signaling state is "stable"
+//   //   if (peerConnections.current[from].signalingState === "stable") {
+//   //     await peerConnections.current[from].setRemoteDescription(new RTCSessionDescription(offer));
+//   //     const answer = await peerConnections.current[from].createAnswer();
+//   //     await peerConnections.current[from].setLocalDescription(answer);
+//   //     socketRef.current.emit('answer', { from: username, to: from, answer });
+//   //   } else {
+//   //     console.warn(`Skipping setRemoteDescription for ${from} because signalingState is ${peerConnections.current[from].signalingState}`);
+//   //   }
+//   // };
+
+//   const handleOffer = async ({ from, offer,roomid }) => {
+//     console.log("this is offers roomid",roomid ,offer,from );
+    
+//     if (peerConnections.current[from]) {
+//       console.warn(`PeerConnection with ${from} already exists.`);
+//       return;
+//     }
+  
+//     peerConnections.current[from] = createPeerConnection(from,roomid);
+//     await peerConnections.current[from].setRemoteDescription(new RTCSessionDescription(offer));
+  
+//     // Process queued ICE candidates
+//     if (peerConnections.current[from].queuedCandidates) {
+//       // peerConnections.current[from].queuedCandidates.forEach(async (candidate) => {
+//       //   await peerConnections.current[from].addIceCandidate(new RTCIceCandidate(candidate));
+//       // });
+//       console.log(`Processing queued candidates for user ${from}`);
+//       for (const candidate of peerConnections.current[from].queuedCandidates) {
+//         await peerConnections.current[from].addIceCandidate(new RTCIceCandidate(candidate));
+//       }
+//       peerConnections.current[from].queuedCandidates = [];
+//     }
+  
+//     const answer = await peerConnections.current[from].createAnswer();
+//     await peerConnections.current[from].setLocalDescription(answer);
+//     socketRef.current.emit('answer', { from: userName, to: from, answer,roomid });
+//   };
+  
+//   // const handleAnswer = async ({ from, answer }) => {
+//   //   const peerConnection = peerConnections.current[from];
+//   //   if (!peerConnection) return;
+
+//   //   // Check signaling state before setting remote description
+//   //   if (peerConnection.signalingState === "have-local-offer") {
+//   //     await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+//   //   } else {
+//   //     console.warn(`Skipping setRemoteDescription because state is: ${peerConnection.signalingState}`);
+//   //   }
+//   // };
+
+//   // const handleIceCandidate = async ({ from, candidate }) => {
+//   //   if (peerConnections.current[from]) {
+//   //     await peerConnections.current[from].addIceCandidate(new RTCIceCandidate(candidate));
+//   //   }
+//   // };
+
+  
+
+//   // const startCall = async (userId) => {
+//   //   if (peerConnections.current[userId]) {
+//   //     console.warn(`Already in a call with ${userId}`);
+//   //     return;
+//   //   }
+
+//   //   peerConnections.current[userId] = createPeerConnection(userId);
+//   //   const offer = await peerConnections.current[userId].createOffer();
+//   //   await peerConnections.current[userId].setLocalDescription(offer);
+//   //   socketRef.current.emit('offer', { from: username, to: userId, offer });
+//   // };
+
+//   // const joinConference = () => {
+//   //   socketRef.current.emit('join-user', { username, roomId });
+//   //   setJoined(true);
+//   //   startLocalVideo();
+//   // };
+
+//   const handleAnswer = async ({ from, answer }) => {
+//     const peerConnection = peerConnections.current[from];
+//     if (!peerConnection) return;
+  
+//     await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+  
+//     // Process queued ICE candidates
+//     if (peerConnection.queuedCandidates) {
+//       // peerConnection.queuedCandidates.forEach(async (candidate) => {
+//       //   await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+//       // });
+//       for (const candidate of peerConnection.queuedCandidates) {
+//         await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+//       }
+//       peerConnection.queuedCandidates = [];
+//     }
+//   };
+  
+//   const handleIceCandidate = async ({ from, candidate }) => {
+//     const peerConnection = peerConnections.current[from];
+  
+//     if (!peerConnection) {
+//       console.warn(`No peer connection for user ${from}`);
+//       return;
+//     }
+  
+//     // Queue ICE candidates if remote description is not set
+//     if (!peerConnection.remoteDescription || peerConnection.remoteDescription.type === null) {
+//       console.warn(`Remote description not set for ${from}, queuing candidate.`);
+//       if (!peerConnection.queuedCandidates) {
+//         peerConnection.queuedCandidates = [];
+//       }
+//       peerConnection.queuedCandidates.push(candidate);
+//     } else {
+//       await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+//     }
+//   };
+  
+//   const startCall = async (userId) => {
+//     if (peerConnections.current[userId]) {
+//       console.warn(`Already in a call with ${userId}`);
+//       return;
+//     }
+  
+//     const peerConnection = createPeerConnection(userId, roomid);
+//     if (!peerConnection) {
+//       console.error("Failed to create peer connection.");
+//       return;
+//     }
+    
+//     peerConnections.current[userId] = peerConnection;
+//     // const offer = await peerConnections.current[userId].createOffer();
+//     // await peerConnections.current[userId].setLocalDescription(offer);
+//     // socketRef.current.emit('offer', { from: username, to: userId, offer });
+//     const offer = await peerConnection.createOffer();
+//     await peerConnection.setLocalDescription(offer);
+//     socketRef.current.emit('offer', { from: userName, to: userId, offer ,roomid });
+//   };
+  
+//   // const joinConference = async() => {
+//   //   socketRef.current.emit('join-user', { username, roomId });
+//   //   setJoined(true);
+//   //   setIsRunning(true);
+//   //  await startLocalVideo();
+//   // };
+//   const joinConference = async () => {
+//     try {
+//       await startLocalVideo(); // Wait for local video to start
+//       socketRef.current.emit('join-user', { userName, roomid, password: roompass });
+//       setJoined(true);
+//       setIsRunning(true);
+//     } catch (error) {
+//       console.error("Error starting local video:", error);
+//     }
+//   };
+
+  
+
+//   const toggleVideo = () => {
+//     const videoTrack = localStreamRef.current?.getVideoTracks()[0];
+//     if (videoTrack) {
+//       videoTrack.enabled = !videoTrack.enabled;
+//       setIsVideoOn(videoTrack.enabled);
+//     }
+//   };
+
+//   const toggleAudio = () => {
+//     const audioTrack = localStreamRef.current?.getAudioTracks()[0];
+//     if (audioTrack) {
+//       audioTrack.enabled = !audioTrack.enabled;
+//       setIsAudioOn(audioTrack.enabled);
+
+//       sendMicStatusUpdate(audioTrack.enabled);
+//     }
+//   };
+
+//   const sendMicStatusUpdate = (isMicOn) => {
+//     socketRef.current.emit("mic-status-update", {
+//       userId: username, // Unique user identifier
+//       isMicOn,
+//     });
+//   };
+
+//   const endCall = () => {
+//     Object.keys(peerConnections.current).forEach((userId) => {
+//       socketRef.current.emit('call-ended', { userId, roomid });
+//       handleEndCall(userId);
+//     });
+//     setJoined(false);
+//   };
+
+//   const handleEndCall = (userId) => {
+//     if (peerConnections.current[userId]) {
+//       peerConnections.current[userId].close();
+//       delete peerConnections.current[userId];
+//     }
+//     if (remoteVideosRef.current[userId]) {
+//       remoteVideosRef.current[userId].remove();
+//       delete remoteVideosRef.current[userId];
+//     }
+
+//     setAllUsers((prevUsers) => {
+//       const updatedUsers = { ...prevUsers };
+//       delete updatedUsers[userId]; // Remove from state to clean UI
+//       return updatedUsers;
+//     });
+//   };
+
+//   const toggleScreenShare = async () => {
+//     if (!screenSharingRef.current) {
+//       try {
+//         const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+//         screenSharingRef.current = true;
+//         setIsScreenSharing(true);
+        
+//         const screenTrack = stream.getTracks()[0];
+//         Object.values(peerConnections.current).forEach(pc => {
+//           const sender = pc.getSenders().find(s => s.track.kind === 'video');
+//           if (sender) sender.replaceTrack(screenTrack);
+//         });
+        
+//         screenTrack.onended = () => stopScreenShare();
+//       } catch (error) {
+//         console.error('Error accessing screen sharing:', error);
+//       }
+//     } else {
+//       stopScreenShare();
+//     }
+//   };
+
+//   const stopScreenShare = () => {
+//     screenSharingRef.current = false;
+//     setIsScreenSharing(false);
+//     startLocalVideo();
+//   };
+
+//   const formatTime = (seconds) => {
+//     const mins = Math.floor(seconds / 60);
+//     const secs = seconds % 60;
+//     return `${mins}:${secs < 10 ? `0${secs}` : secs}`;
+//   };
+//   const handleNewContent = () => {
+//     setHasNewNotes(true); // Show notification when new content is added
+//   };
+
+//   const toggleNotesPopup = () => {
+//     setShowNotesPopup(!showNotesPopup);
+//     setHasNewFile(false); // Reset notification when opened
+//   };
+
+  
+//   const toggleWhiteboard = () => {
+//     setShowWhiteboard((prev) => !prev);
+//     setShowChat(false); // Hide chat when Whiteboard is open
+//   };
+
+//   // Close Whiteboard when clicking outside
+//   useEffect(() => {
+//     const handleClickOutside = (event) => {
+//       if (whiteboardRef.current && !whiteboardRef.current.contains(event.target)) {
+//         setIsWhiteboardOpen(false);
+//       }
+//     };
+//     document.addEventListener("mousedown", handleClickOutside);
+//     return () => document.removeEventListener("mousedown", handleClickOutside);
+//   }, []);
+
+  
+//   return (
+//     <>
+//       {test?(
+//         <Test />
+//       ):(
+//             <div className="host-full-page">
+//             <div className="host-upper-row">
+//             <button onClick={()=>setTest(true)}>Create Room</button>
+//         {generatedRoomId && (
+//           <div>
+//             <h2>Generated Room Link:</h2>
+//             <a href={generatedRoomId} className="text-blue-500">{generatedRoomId}</a>
+//           </div>
+//         )}
+
+//         <h1 className="text-xl font-bold">Room ID: {roomid}</h1>
+//         <h2 className="text-lg">Username: {userName}</h2>
+//         <h3 className="text-md">Room Password :{roompass}</h3>
+
+// <div className="controls" style={{display:"flex",height:"20px"}}>
+//                     {/* <input
+//                       type="text"
+//                       placeholder="Enter Username"
+//                       value={username}
+//                       onChange={(e) => setUsername(e.target.value)}
+//                       className="username-input"
+//                       id="usernameInput"
+//                     /> */}
+//                     <div className="controls-container" id="controlsContainer">
+//                       <button
+//                         onClick={joinConference}
+//                         disabled={joined}
+//                         className="join-btn"
+//                         id="joinBtn"
+//                       >
+//                         Join
+//                       </button>
+//                     </div>
+//                   </div>
+//                   {joined && <div className="timer">Time: {formatTime(time)}</div>}
+//             </div>
+          
+//             <div className="host-middle-div">
+//               <div className={`host-left-middle-div ${showChat||showWhiteboard  ? 'shrink' : ''}`}>
+//                 <div className="app">
+                  
+          
+//                   <div className="video-container" style={{width:"60%",height:"auto"}}>
+//                     <div className="local-video-container" >
+//                       <video
+//                         ref={localVideoRef}
+//                         autoPlay
+//                         muted
+//                         playsInline
+//                         id="localVideo"
+//                         style={{width: "100%",
+//                           height: "100%"}}
+//                       />
+//                     </div>
+//                   </div>
+
+// {/* <ul className="user-list" id="userList">
+//   {Object.entries(allUsers)
+//     .filter(([id]) => id !== username) // Exclude local user
+//     .map(([id, user]) => (
+//       <li key={id} className="user-item" id={`userItem-${id}`}>
+//         {user.username}
+//         <button
+//           onClick={() => startCall(id)}
+//           className="call-btn"
+//           id={`callBtn-${id}`}
+//         >
+//           Call
+//         </button>
+//       </li>
+//     ))}
+// </ul> */}
+
+//                 </div>
+// <div className="host-remote-videos">
+//       {Object.entries(allUsers)
+//         .filter(([userId]) => userId !== userName) // Exclude local user
+//         .map(([userId, user]) => {
+//           console.log("Username is:-",user); // Debugging user object
+//           console.log("Audio Status:", userAudioStatus[userId]);
+//           return (
+//             <div key={userId} className="remote-video-wrapper">
+//               <video
+//                 ref={(el) => (remoteVideosRef.current[userId] = el)}
+//                 autoPlay
+//                 playsInline
+//                 className="remote-video"
+//                 id={`remoteVideo-${userId}`}
+//               />
+//               <div className="remote-user-info">
+//                 <img
+//                   src={userAudioStatus[userId] ? micon : micoff}
+//                   alt={userAudioStatus[userId] ? "Mic On" : "Mic Off"}
+//                   className="mic-icon"
+//                 />
+//                 <span className="remote-user-name" style={{color:"red"}}>{user.userName}</span>
+//               </div>
+//             </div>
+//           );
+//         })}
+//     </div>
+          
+//                 <div className="bottom-controls">
+
+//   <img onClick={toggleVideo} className="video-btn" src={isVideoOn ? 'https://tse4.mm.bing.net/th?id=OIP.LOMPTRGrLN2-coUz2VGJLwHaEf&pid=Api&P=0&h=180':"https://tse2.mm.bing.net/th?id=OIP.3sYc_KH5RGv6_uRqAQnENQHaHa&pid=Api&P=0&h=180"}style={{width:"30px"}}/>
+
+//   <img onClick={toggleAudio} className="audio-btn" src={isAudioOn ? 'https://tse1.mm.bing.net/th?id=OIP.5VoN9XNBWrEx4lKc1u9oxgHaJQ&pid=Api&P=0&h=180' : 'https://tse3.mm.bing.net/th?id=OIP.LQYQB6u6py-JsGEVAGjcCwHaHa&pid=Api&P=0&h=180'}style={{width:"30px"}}/>
+//   <img onClick={endCall} className="disconnect-btn" src='https://tse1.mm.bing.net/th?id=OIP.WonoTxPNqpdNTpAKdGpiggHaHa&pid=Api&P=0&h=180' style={{width:"30px"}}/>
+//   <button onClick={toggleWhiteboard} style={{ background: showWhiteboard ? "red" : "blue", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}>
+//                 {showWhiteboard ? "Close Whiteboard" : "Open Whiteboard"}
+//               </button>
+//   {joined && <img onClick={toggleScreenShare}src={isScreenSharing ? "https://tse4.mm.bing.net/th?id=OIP.iNdKd9jxoWjKqyV-YYh54wHaHa&pid=Api&P=0&h=180":'https://tse4.mm.bing.net/th?id=OIP.x_9Vc9hXxmWPrl10Vj959AHaHa&pid=Api&P=0&h=180' }style={{width:"30px"}}/>}
+
+//   {/* {joined && <button onClick={() => setIsWhiteboard(true)}>WhiteBoard</button>} */}
+//   {/* <img onClick={() => setShowChat(!showChat)} src='https://tse1.mm.bing.net/th?id=OIP.2xM9b_J8akiM3A0tnqAXzwHaHa&pid=Api&P=0&h=180' style={{width:"30px"}}/> */}
+//   <div style={{ position: "relative", display: "inline-block" }}>
+//       {/* Chat Icon */}
+//       <img
+//         onClick={toggleChat}
+//         src="https://tse1.mm.bing.net/th?id=OIP.2xM9b_J8akiM3A0tnqAXzwHaHa&pid=Api&P=0&h=180"
+//         style={{ width: "30px", cursor: "pointer" }}
+//       />
+
+//       {/* Red Notification Dot */}
+//       {hasNewMessage && (
+//         <span
+//           style={{
+//             position: "absolute",
+//             top: "-5px",
+//             right: "-5px",
+//             background: "blue",
+//             color: "white",
+//             borderRadius: "50%",
+//             width: "10px",
+//             height: "10px",
+//             display: "inline-block"
+//           }}
+//         ></span>
+//       )}
+//       </div>
+
+//   <div style={{ position: "relative", display: "inline-block" }}>
+//   {/* File Image Button */}
+//   <img 
+//     src={fileimg} 
+//     onClick={toggleNotesPopup} 
+//     style={{ width: "30px", cursor: "pointer" }}
+//   />
+
+//   {/* Red Dot Notification */}
+//   {hasNewFile  && (
+//     <span 
+//       style={{
+//         position: "absolute",
+//         top: "-5px",
+//         right: "-5px",
+//         background: "red",
+//         color: "white",
+//         borderRadius: "50%",
+//         width: "10px",
+//         height: "10px",
+//         display: "inline-block"
+//       }}
+//     ></span>
+//   )}
+
+//   {/* Popup for NotesApp */}
+//   {showNotesPopup && (
+//     <div 
+//       style={{
+//         position: "absolute",
+//         bottom: "40px",
+//         left: "50%",
+//         transform: "translateX(-50%)",
+//         background: "white",
+//         padding: "10px",
+//         borderRadius: "8px",
+//         boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+//         zIndex: 1000
+//       }}
+//     >
+//       {/* <NotesApp onNewContent={handleNewContent} /> */}
+//       <NotesApp roomId={roomId} username={username} setHasNewFile={setHasNewFile} />
+//     </div>
+//   )}
+// </div>
+
+// </div>
+//               </div>
+          
+//               <div className={`host-chatting ${showChat || showWhiteboard? 'visible' : ''}`}>
+//               {showWhiteboard ? <WhiteBoard /> : <ChatSection onNewMessage={handleNewMessage} />}
+//               </div>
+//             </div>
+//           </div>
+//           )}
+//     </>
+//   )
+
+
+
+
+
+//   import React, { useState, useEffect,useRef } from 'react';
+//   import io from 'socket.io-client';
+//   import { useParams, useNavigate } from 'react-router-dom';
+//   import { v4 as uuidv4 } from 'uuid';
+//   import './grstudy.css';
+//   import LandingPage from './LandingPage';
+//   import ChatSection from './ChatSection';
+//   import micon2 from './mic.png'
+//   import micoff2 from './microphone.png'
+//   import NotesApp from './NotesApp.js'
+//   import fileimg2 from './file.png'
+//   import GrpTest from './GrpTest.js';
+  
+//   const SOCKET_SERVER_URL = 'https://virtualstudyroom2.onrender.com';
+//   const ICE_SERVERS = [{ urls: 'stun:stun.l.google.com:19302' }];
+  
+//   const GrStudyPage = () => {
+  
+//     const [username2, setUsername2] = useState('');
+//     const [time2, setTime2] = useState(0);
+//       const [allUsers2, setAllUsers2] = useState({});
+//       const [joined2, setJoined2] = useState(false);
+//       const localVideoRef2 = useRef(null);
+//       const remoteVideosRef2 = useRef({});
+//       const socketRef2 = useRef(null);
+//       const peerConnections2 = useRef({});
+//       const localStreamRef2 = useRef(null);
+//       const [isVideoOn2, setIsVideoOn2] = useState(true);
+//     const [isAudioOn2, setIsAudioOn2] = useState(true);
+//      const [iswhiteboard2,setIsWhiteboard2]=useState(false)
+//         const [isScreenSharing2, setIsScreenSharing2] = useState(false);
+//         const [userAudioStatus2, setUserAudioStatus2] = useState({});
+//         const [showNotesPopup2, setShowNotesPopup2] = useState(false);
+//         const [isFile2,setIsFile2]= useState(false)
+//         const [generatedRoomId2, setGeneratedRoomId2] = useState('')
+//           const [hasNewFile2, setHasNewFile2] = useState(false); // Store notifications for remote users
+//         const [isRunning2, setIsRunning2] = useState(false);
+//         const screenSharingRef2 = useRef(false);
+//         const [hasNewNotes2, setHasNewNotes2] = useState(false);
+//         const [showChat2, setShowChat2] = useState(false);
+//         const [checkauth,setcheckauth]= useState(false)
+  
+//     const { roomId } = useParams();
+//     const navigate = useNavigate();
+//     const [isLanding, setIsLanding] = useState(false);
+//     const [isVideo,setIsVideo]= useState(false)
+//     const [copySuccess, setCopySuccess] = useState('');
+//     const shareUrl = window.location.href;
+  
+  
+//     useEffect(() => {
+//       if (!roomId) {
+//         const newRoomId = uuidv4();  // Generate new unique room ID
+//         const baseUrl =  window.location.origin;
+//         setGeneratedRoomId2(`${baseUrl}/create-room/${newRoomId}`); 
+//       }
+//     }, [roomId]);
+    
+  
+//   useEffect(() => {
+//     socketRef2.current = io("http://localhost:10000");
+    
+//     socketRef2.current.on('joined', handleUserListUpdate2);
+//     socketRef2.current.on('offer', handleOffer2);
+//     socketRef2.current.on('answer', handleAnswer2);
+//     socketRef2.current.on('icecandidate', handleIceCandidate2);
+//     socketRef2.current.on('call-ended', handleEndCall2);
+    
+//     return () => {
+//       socketRef2.current.disconnect();
+//       Object.values(peerConnections2.current).forEach(pc => pc.close());
+//     };
+//   }, []);
+  
+//   useEffect(() => {
+//     // Listen for file upload notifications
+//     socketRef2.current.on("newFileUploaded", ({ username2 }) => {
+//       console.log(`New file uploaded by ${username2}`);
+//       setHasNewFile2(true); // Show notification
+//     });
+  
+//     return () => {
+//       socketRef2.current.off("newFileUploaded");
+//     };
+//   }, []);
+  
+//   useEffect(() => {
+//     socketRef2.current.on("mic-status-update", ({ userId, isMicOn2 }) => {
+//       setUserAudioStatus2((prev) => ({
+//         ...prev,
+//         [userId]: isMicOn2,
+//       }));
+//     });
+  
+//     return () => {
+//       socketRef2.current.off("mic-status-update");
+//     };
+//   }, []);
+//   useEffect(() => {
+//     let timer;
+//     if (isRunning2) {
+//       timer = setInterval(() => {
+//         setTime2((prevTime) => prevTime + 1);
+//       }, 1000);
+//     } else {
+//       clearInterval(timer);
+//     }
+//     return () => clearInterval(timer);
+//   }, [isRunning2]);
+  
+//   useEffect(() => {
+//     // Update the mic status whenever `allUsers` changes
+//     const updatedAudioStatus = Object.entries(allUsers2).reduce((acc, [userId, user]) => {
+//       acc[userId] = user.audioEnabled||false; // Assuming `audioEnabled` is updated dynamically
+//       return acc;
+//     }, {});
+  
+//     setUserAudioStatus2(updatedAudioStatus);
+//   }, [allUsers2]); // Runs whenever `allUsers` updates
+  
+//   const copyToClipboard2 = () => {
+//     if (generatedRoomId2) {
+//       navigator.clipboard.writeText(generatedRoomId2).then(() => {
+//         setCopySuccess('Link Copied!');
+//       }).catch(err => {
+//         console.error('Failed to copy link:', err);
+//       });
+//     } else {
+//       console.warn("No generated room ID to copy.");
+//     }
+//   };
+  
+  
+  
+//   const startLocalVideo2 = async () => {
+//     try {
+//       const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+//       localStreamRef2.current = stream;
+//       if (localVideoRef2.current) localVideoRef2.current.srcObject = stream;
+//       // return stream;
+//     } catch (error) {
+//       console.error('Error accessing media devices:', error);
+//     }
+//   };
+  
+//   // const handleUserListUpdate = (users) => {
+//   //   setAllUsers(users);
+//   //   setUsername(socketRef.current.id);
+//   //   // Remove users who have disconnected to prevent empty divs
+//   //   Object.keys(remoteVideosRef.current).forEach((userId) => {
+//   //     if (!users[userId]) {
+//   //       delete remoteVideosRef.current[userId];
+//   //     }
+//   //   });
+//   // };
+  
+//   const handleUserListUpdate2 = (users) => {
+//     setAllUsers2(users);
+//     setUsername2(socketRef2.current.id);
+  
+//     // Remove users who have disconnected
+//     Object.keys(remoteVideosRef2.current).forEach((userId) => {
+//       if (!users[userId]) {
+//         delete remoteVideosRef2.current[userId];
+//       }
+//     });
+  
+//     // Automatically start calls with new users
+//     Object.keys(users).forEach((userId) => {
+//       if (userId !== username2 && !peerConnections2.current[userId]) {
+//         startCall2(userId); // Start call automatically
+//       }
+//     });
+//   };
+  
+//   const createPeerConnection2 = (userId) => {
+//     const peerConnection = new RTCPeerConnection({ iceServers: ICE_SERVERS });
+//     localStreamRef2.current.getTracks().forEach(track => {
+//       peerConnection.addTrack(track, localStreamRef2.current);
+//     });
+//   //   if (localStreamRef.current) {
+//   //     localStreamRef.current.getTracks().forEach(track => {
+//   //         peerConnection.addTrack(track, localStreamRef.current);
+//   //     });
+//   // } else {
+//   //     console.warn("localStreamRef is null, skipping track addition.");
+//   // }
+  
+//     peerConnection.ontrack = (event) => {
+//       if (!remoteVideosRef2.current[userId]) {
+//         remoteVideosRef2.current[userId] = document.createElement('video');
+//         remoteVideosRef2.current[userId].autoplay = true;
+//         remoteVideosRef2.current[userId].playsInline = true;
+//       }
+  
+//       const remoteContainer = document.getElementById('remoteVideosContainer');
+//       if (remoteContainer && !remoteContainer.contains(remoteVideosRef2.current[userId])) {
+//         remoteContainer.appendChild(remoteVideosRef2.current[userId]);
+//       }
+  
+//       remoteVideosRef2.current[userId].srcObject = event.streams[0];
+  
+//       event.streams[0].getAudioTracks().forEach((track) => {
+//         setUserAudioStatus2((prev) => ({
+//           ...prev,
+//           [userId]: track.enabled, // true = mic on, false = mic off
+//         }));
+    
+//         track.onmute = () => {
+//           console.log(`User ${userId} muted`);
+//           setUserAudioStatus2((prev) => ({ ...prev, [userId]: false }));
+//         };
+    
+//         track.onunmute = () => {
+//           console.log(`User ${userId} unmuted`);
+//           setUserAudioStatus2((prev) => ({ ...prev, [userId]: true }));
+//         };
+//       });
+//     };
+  
+//     peerConnection.onicecandidate = (event) => {
+//       if (event.candidate) {
+//         socketRef2.current.emit('icecandidate', { candidate: event.candidate, to: userId });
+//       }
+//     };
+  
+//     return peerConnection;
+//   };
+  
+//   // const handleOffer = async ({ from, offer }) => {
+//   //   if (peerConnections.current[from]) {
+//   //     console.warn(`PeerConnection with ${from} already exists.`);
+//   //     return;
+//   //   }
+  
+//   //   peerConnections.current[from] = createPeerConnection(from);
+    
+//   //   // Only set remote description if the signaling state is "stable"
+//   //   if (peerConnections.current[from].signalingState === "stable") {
+//   //     await peerConnections.current[from].setRemoteDescription(new RTCSessionDescription(offer));
+//   //     const answer = await peerConnections.current[from].createAnswer();
+//   //     await peerConnections.current[from].setLocalDescription(answer);
+//   //     socketRef.current.emit('answer', { from: username, to: from, answer });
+//   //   } else {
+//   //     console.warn(`Skipping setRemoteDescription for ${from} because signalingState is ${peerConnections.current[from].signalingState}`);
+//   //   }
+//   // };
+  
+//   const handleOffer2 = async ({ from, offer }) => {
+//     if (peerConnections2.current[from]) {
+//       console.warn(`PeerConnection with ${from} already exists.`);
+//       return;
+//     }
+  
+//     peerConnections2.current[from] = createPeerConnection2(from);
+//     await peerConnections2.current[from].setRemoteDescription(new RTCSessionDescription(offer));
+  
+//     // Process queued ICE candidates
+//     if (peerConnections2.current[from].queuedCandidates) {
+//       peerConnections2.current[from].queuedCandidates.forEach(async (candidate) => {
+//         await peerConnections2.current[from].addIceCandidate(new RTCIceCandidate(candidate));
+//       });
+//       peerConnections2.current[from].queuedCandidates = [];
+//     }
+  
+//     const answer = await peerConnections2.current[from].createAnswer();
+//     await peerConnections2.current[from].setLocalDescription(answer);
+//     socketRef2.current.emit('answer', { from: username2, to: from, answer });
+//   };
+  
+//   const handleAnswer2 = async ({ from, answer }) => {
+//     const peerConnection = peerConnections2.current[from];
+//     if (!peerConnection) return;
+  
+//     await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+  
+//     // Process queued ICE candidates
+//     if (peerConnection.queuedCandidates) {
+//       peerConnection.queuedCandidates.forEach(async (candidate) => {
+//         await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+//       });
+//       peerConnection.queuedCandidates = [];
+//     }
+//   };
+  
+//   const handleIceCandidate2 = async ({ from, candidate }) => {
+//     const peerConnection = peerConnections2.current[from];
+  
+//     if (!peerConnection) {
+//       console.warn(`No peer connection for user ${from}`);
+//       return;
+//     }
+  
+//     // Queue ICE candidates if remote description is not set
+//     if (!peerConnection.remoteDescription || peerConnection.remoteDescription.type === null) {
+//       console.warn(`Remote description not set for ${from}, queuing candidate.`);
+//       if (!peerConnection.queuedCandidates) {
+//         peerConnection.queuedCandidates = [];
+//       }
+//       peerConnection.queuedCandidates.push(candidate);
+//     } else {
+//       // await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+//       try {
+//         await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+//         console.log(`✅ Successfully added ICE candidate for ${from}`);
+//       } catch (error) {
+//         console.error(`❌ Error adding ICE candidate:`, error);
+//       }
+//     }
+//   };
+  
+//   const startCall2 = async (userId) => {
+//     if (peerConnections2.current[userId]) {
+//       console.warn(`Already in a call with ${userId}`);
+//       return;
+//     }
+  
+//     peerConnections2.current[userId] = createPeerConnection2(userId);
+//     const offer = await peerConnections2.current[userId].createOffer();
+//     await peerConnections2.current[userId].setLocalDescription(offer);
+//     socketRef2.current.emit('offer', { from: username2, to: userId, offer });
+//   };
+  
+//   const joinConference2 = async() => {
+//     socketRef2.current.emit('join-user', { username2, roomId });
+//     setJoined2(true);
+//     setIsRunning2(true);
+//    await startLocalVideo2();
+//   };
+  
+  
+//   const toggleVideo2 = () => {
+//     const videoTrack = localStreamRef2.current?.getVideoTracks()[0];
+//     if (videoTrack) {
+//       videoTrack.enabled = !videoTrack.enabled;
+//       setIsVideoOn2(videoTrack.enabled);
+//     }
+//   };
+  
+//   const toggleAudio2 = () => {
+//     const audioTrack = localStreamRef2.current?.getAudioTracks()[0];
+//     if (audioTrack) {
+//       audioTrack.enabled = !audioTrack.enabled;
+//       setIsAudioOn2(audioTrack.enabled);
+  
+//       sendMicStatusUpdate2(audioTrack.enabled);
+//     }
+//   };
+  
+//   const sendMicStatusUpdate2 = (isMicOn2) => {
+//     socketRef2.current.emit("mic-status-update", {
+//       userId: username2, // Unique user identifier
+//       isMicOn2,
+//     });
+//   };
+  
+//   const endCall2 = () => {
+//     Object.keys(peerConnections2.current).forEach((userId) => {
+//       socketRef2.current.emit('call-ended', { userId, roomId });
+//       handleEndCall2(userId);
+//     });
+//     setJoined2(false);
+//   };
+  
+//   const handleEndCall2 = (userId) => {
+//     if (peerConnections2.current[userId]) {
+//       peerConnections2.current[userId].close();
+//       delete peerConnections2.current[userId];
+//     }
+//     if (remoteVideosRef2.current[userId]) {
+//       remoteVideosRef2.current[userId].remove();
+//       delete remoteVideosRef2.current[userId];
+//     }
+  
+//     setAllUsers2((prevUsers) => {
+//       const updatedUsers = { ...prevUsers };
+//       delete updatedUsers[userId]; // Remove from state to clean UI
+//       return updatedUsers;
+//     });
+//   };
+  
+//   const toggleScreenShare2 = async () => {
+//     if (!screenSharingRef2.current) {
+//       try {
+//         const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+//         screenSharingRef2.current = true;
+//         setIsScreenSharing2(true);
+        
+//         const screenTrack = stream.getTracks()[0];
+//         Object.values(peerConnections2.current).forEach(pc => {
+//           const sender = pc.getSenders().find(s => s.track.kind === 'video');
+//           if (sender) sender.replaceTrack(screenTrack);
+//         });
+        
+//         screenTrack.onended = () => stopScreenShare2();
+//       } catch (error) {
+//         console.error('Error accessing screen sharing:', error);
+//       }
+//     } else {
+//       stopScreenShare2();
+//     }
+//   };
+  
+//   const stopScreenShare2 = () => {
+//     screenSharingRef2.current = false;
+//     setIsScreenSharing2(false);
+//     startLocalVideo2();
+//   };
+  
+//   const formatTime2 = (seconds) => {
+//     const mins = Math.floor(seconds / 60);
+//     const secs = seconds % 60;
+//     return `${mins}:${secs < 10 ? `0${secs}` : secs}`;
+//   };
+//   const handleNewContent2 = () => {
+//     setHasNewNotes2(true); // Show notification when new content is added
+//   };
+  
+//   const toggleNotesPopup2 = () => {
+//     setShowNotesPopup2(!showNotesPopup2);
+//     setHasNewFile2(false); // Reset notification when opened
+//   };
+  
+//     return (
+//       <>
+//         {checkauth ? (
+//           <GrpTest val={"que"}/>
+//         ):isLanding ? (
+//           <LandingPage />
+//         ) : (
+//         <div className='gr-cntainer'>
+//      <div className='host-upper-row'>
+//      {/* <a href='/testing'>Create Room</a> */}
+//   <div className="controls" style={{display:"flex",height:"20px"}}>
+//                       <input
+//                         type="text"
+//                         placeholder="Enter Username"
+//                         value={username2}
+//                         onChange={(e) => setUsername2(e.target.value)}
+//                         className="username-input"
+//                         id="usernameInput"
+//                       />
+//                       <div className="controls-container" id="controlsContainer">
+//                         <button
+//                           onClick={joinConference2}
+//                           disabled={joined2}
+//                           className="join-btn"
+//                           id="joinBtn"
+//                         >
+//                           Join
+//                         </button>
+//                       </div>
+//                       <button onClick={()=>setcheckauth(true)}>Group Test</button>
+//                     </div>
+  
+//                     {joined2 && <div className="timer">Time: {formatTime2(time2)}</div>}
+//   </div>
+//   <div className='middle-gr-row'>
+//   <div className={`host-left-middle-div2 ${showChat2 ? 'shrink' : ''}`}>
+//                   <div className="app2">
+                    
+            
+//                     <div className={`video-container2 ${Object.keys(allUsers2).length > 1 ? 'shrink' : ''}`} style={{height: "auto"}}>
+//                       <div className="local-video-container" >
+//                         <video
+//                           ref={localVideoRef2}
+//                           autoPlay
+//                           muted
+//                           playsInline
+//                           id="localVideo"
+//                           style={{width: "100%",
+//                             height: "100%"}}
+//                         />
+//                       </div>
+//                     </div>
+  
+//   {/* <ul className="user-list" id="userList">
+//     {Object.entries(allUsers)
+//       .filter(([id]) => id !== username) // Exclude local user
+//       .map(([id, user]) => (
+//         <li key={id} className="user-item" id={`userItem-${id}`}>
+//           {user.username}
+//           <button
+//             onClick={() => startCall(id)}
+//             className="call-btn"
+//             id={`callBtn-${id}`}
+//           >
+//             Call
+//           </button>
+//         </li>
+//       ))}
+//   </ul> */}
+//               <div className="bottom-controls">
+  
+//   <img onClick={toggleVideo2} className="video-btn" src={isVideoOn2 ? 'https://tse4.mm.bing.net/th?id=OIP.LOMPTRGrLN2-coUz2VGJLwHaEf&pid=Api&P=0&h=180':"https://tse2.mm.bing.net/th?id=OIP.3sYc_KH5RGv6_uRqAQnENQHaHa&pid=Api&P=0&h=180"}style={{width:"30px"}}/>
+  
+//   <img onClick={toggleAudio2} className="audio-btn" src={isAudioOn2 ? 'https://tse1.mm.bing.net/th?id=OIP.5VoN9XNBWrEx4lKc1u9oxgHaJQ&pid=Api&P=0&h=180' : 'https://tse3.mm.bing.net/th?id=OIP.LQYQB6u6py-JsGEVAGjcCwHaHa&pid=Api&P=0&h=180'}style={{width:"30px"}}/>
+//   <img onClick={endCall2} className="disconnect-btn" src='https://tse1.mm.bing.net/th?id=OIP.WonoTxPNqpdNTpAKdGpiggHaHa&pid=Api&P=0&h=180' style={{width:"30px"}}/>
+  
+//   {joined2 && <img onClick={toggleScreenShare2}src={isScreenSharing2 ? "https://tse4.mm.bing.net/th?id=OIP.iNdKd9jxoWjKqyV-YYh54wHaHa&pid=Api&P=0&h=180":'https://tse4.mm.bing.net/th?id=OIP.x_9Vc9hXxmWPrl10Vj959AHaHa&pid=Api&P=0&h=180' }style={{width:"30px"}}/>}
+//   {joined2 && <button onClick={() => setIsWhiteboard2(true)}>WhiteBoard</button>}
+//   <img onClick={() => setShowChat2(!showChat2)} src='https://tse1.mm.bing.net/th?id=OIP.2xM9b_J8akiM3A0tnqAXzwHaHa&pid=Api&P=0&h=180' style={{width:"30px"}}/>
+  
+//   <div style={{ position: "relative", display: "inline-block" }}>
+//   {/* File Image Button */}
+//   <img 
+//     src={fileimg2} 
+//     onClick={toggleNotesPopup2} 
+//     style={{ width: "30px", cursor: "pointer" }}
+//   />
+  
+//   {/* Red Dot Notification */}
+//   {hasNewFile2  && (
+//     <span 
+//       style={{
+//         position: "absolute",
+//         top: "-5px",
+//         right: "-5px",
+//         background: "red",
+//         color: "white",
+//         borderRadius: "50%",
+//         width: "10px",
+//         height: "10px",
+//         display: "inline-block"
+//       }}
+//     ></span>
+//   )}
+  
+//   {/* Popup for NotesApp */}
+//   {showNotesPopup2 && (
+//     <div 
+//       style={{
+//         position: "absolute",
+//         bottom: "40px",
+//         left: "50%",
+//         transform: "translateX(-50%)",
+//         background: "white",
+//         padding: "10px",
+//         borderRadius: "8px",
+//         boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+//         zIndex: 1000
+//       }}
+//     >
+//       {/* <NotesApp onNewContent={handleNewContent} /> */}
+//       <NotesApp roomId={roomId} username={username2} setHasNewFile={setHasNewFile2} />
+//     </div>
+//   )}
+//   </div>
+  
+//   </div>
+//                   </div>
+//   <div className="host-remote-videos2">
+//         {Object.entries(allUsers2)
+//           .filter(([userId]) => userId !== username2) // Exclude local user
+//           .map(([userId, user]) => {
+//             console.log("Username is:-",user); // Debugging user object
+//             console.log("Audio Status:", userAudioStatus2[userId]);
+//             return (
+//               <div key={userId} className="remote-video-wrapper">
+//                 <video
+//                   ref={(el) => (remoteVideosRef2.current[userId] = el)}
+//                   autoPlay
+//                   playsInline
+//                   className="remote-video"
+//                   id={`remoteVideo-${userId}`}
+//                 />
+//                 <div className="remote-user-info">
+//                   <img
+//                     src={userAudioStatus2[userId] ? micon2 : micoff2}
+//                     alt={userAudioStatus2[userId] ? "Mic On" : "Mic Off"}
+//                     className="mic-icon"
+//                   />
+//                   <span className="remote-user-name" style={{color:"red"}}>{user.username}</span>
+//                 </div>
+//               </div>
+//             );
+//           })}
+//       </div>
+            
+  
+//    </div>
+  
+//    <div className={`host-chatting ${showChat2 ? 'visible' : ''}`}>
+//                   <ChatSection />
+//                 </div>
+//   </div>
+//      </div>
+//         ) 
+//   }
+//       </>
+//     );
+    
+    
+//   };
+  
+//   export default GrStudyPage;
+  
+  
+  

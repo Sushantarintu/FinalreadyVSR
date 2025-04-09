@@ -1,0 +1,198 @@
+/* Container for the quiz */
+.jabe{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.quiz-container {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    text-align: center;
+  }
+  
+
+  .quiz-container h1 {
+    font-size: 2.5rem;
+    color: #4a90e2;
+    margin-bottom: 20px;
+  }
+  
+
+  .quiz-topic {
+    font-size: 1.5rem;
+    color: #333;
+    background-color: #e9f4ff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+ 
+  .question-header {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .quiz-question {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 20px 0;
+  }
+  
+ 
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .quiz-option {
+    background-color: #e0f7fa;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+  }
+  
+  .quiz-option:hover {
+    background-color: #00acc1;
+    color: white;
+  }
+  
+
+  .next-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .next-button:hover {
+    background-color: #388e3c;
+  }
+  
+  
+ 
+  .main-container{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: 30% auto;
+  }
+  
+    .message.self {
+      align-self: flex-end;
+      background-color: #d1f7c4; 
+      text-align: right;
+    }
+    
+  
+    .message.other {
+      align-self: flex-start;
+      background-color: #f0f0f0; 
+      text-align: left;
+    }
+    .Contact-list{
+      border: 2px solid black;
+      float: left;
+    }
+    .chat-container{
+      border: 2px solid black;
+    }
+    
+
+     /* General Styles */
+/* body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} */
+.sidekune{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Main Container */
+.mocontainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  gap: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Left Input Section */
+.left-inp-div {
+  width: 50%;
+  text-align: left;
+}
+
+input[type="text"], input[type="number"] {
+  width: calc(100% - 20px);
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Button */
+.mobutton {
+  background: #28a745;
+  color: white;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.mobutton:hover {
+  background: #218838;
+}
+
+/* Right Image Section */
+.right-im-div {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-im-div img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  div {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .left-inp-div, .right-im-div {
+    width: 100%;
+  }
+}

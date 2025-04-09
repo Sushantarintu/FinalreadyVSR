@@ -1,0 +1,171 @@
+.karide{
+    /* background-image: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.2)),url("https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/oak-tree-reflection-at-sunset-steve-satushek.jpg"); */
+    background-image: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.2)),url("https://thestudyjournal.com/wp-content/uploads/2023/08/virtual-study-room-jpg.webp");
+width: 100%;
+height: 100vh;
+background-repeat: no-repeat;
+background-position: center;
+/* background-attachment:fixed; */
+background-size: cover;
+}
+.main{
+    margin-bottom: 500px;
+}
+#dd{
+    margin-right: 40px;
+}
+#sec3{
+    background-size: contain;
+    border-radius: 20px;
+    float: right;
+    align-items: center;
+    height: 450px;
+    width: 25%;
+    margin-right: 20px;
+}
+/* .middle{
+    align-items: center;
+} */
+#btn2{
+background-color: white;
+height: 50px;
+width: 80%;
+color: orange;
+align-content: center;
+align-self: center;
+border-radius: 7px;
+margin-left: 20px;
+margin-top: 10px;
+}
+.sec1{
+    align-items: center;
+    /* justify-content: space-between; */
+}
+.navdiv{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.praroz{
+    color: orange;
+    font-size: xx-large;
+    font-weight: bold;
+    border-bottom: 2px white solid;
+}
+li{
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+li a{
+    text-decoration: none;
+    color: white;
+    margin-right: 20px;
+}
+li a:hover{
+    border-bottom: 1px white solid ;
+}
+#bn{
+    color: white;
+    background-color: orange;
+}
+.sec2{
+    margin-top: 100px;
+}
+.white{
+    color: white;
+    font-size: xx-large;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#ora{
+    color: rgb(220, 86, 66);
+    font-size: xx-large;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+p{
+    color: white;
+}
+#in1{
+    background-color: black;
+    /* color: whitesmoke; */
+    height: 50px;
+width: 80%;
+color: orange;
+/* align-content: center; */
+align-self: center;
+/* border-radius: 7px; */
+margin-left: 20px;
+margin-top: 10px;
+}
+#in2{
+    background-color: black;
+    /* color: whitesmoke; */
+    height: 50px;
+width: 80%;
+color: orange;
+/* align-content: center; */
+align-self: center;
+/* border-radius: 7px; */
+margin-left: 20px;
+margin-top: 10px;
+}
+#btn3{
+    background-color: orange;
+    color: black;
+    height: 50px;
+width: 80%;
+border-radius: 7px;
+margin-left: 20px;
+margin-top: 10px;
+}
+#h31{
+    color: white;
+    font-weight: bold;
+    font-size: larger;
+    /* margin-left: 40px; */
+    text-align: center;
+}
+#h32{
+    color: white;
+    font-weight: bold;
+    font-size: larger;
+    /* margin-left: 80px; */
+    text-align: center;
+}
+#br1{
+    margin-left: 70px;
+}
+#dds{
+    display: inline-block;
+    margin-right: 30px;
+    /* background-color: black; */
+}
+.image{
+    margin-left: 20px;
+    border-radius: 3px;
+    background-size: contain;
+}
+.leftside{
+    margin-left: 40px;
+    font-size: 40px;
+}
+#me{
+    margin-left: 40px;
+}
+#btn{
+    margin-left: 40px;
+    margin-top: 40px;
+    width: 12%;
+    height: 40px;
+    background-color: orange;
+    border-radius: 4px;
+    color: white;
+}
+
+
+
