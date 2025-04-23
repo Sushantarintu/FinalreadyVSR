@@ -118,24 +118,35 @@ flex-direction: column;
 .video-container2.shrink {
   width: 70%; /* Adjust width dynamically when remote user joins */
 }
+/* .uparebe{
+  position: fixed;
+  overflow-y: auto;
+} */
 .host-full-page{
     display: grid;
     grid-template-rows: 12% auto;
     height: 100vh;
+   
+    /* overflow-y: auto; */
+
 }
 .host-upper-row{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  /* position: fixed; */
 }
 .host-middle-div {
     display: flex;
     width: 100%;
     height: 100%;
+    /* flex-direction: column; */
     transition: all 0.3s ease-in-out;
     border: 1px solid black;
   }
-  
+  .kalkarbe{
+    color: black;
+  }
   .host-left-middle-div {
     display: flex;
     flex-direction: column;
@@ -157,11 +168,14 @@ flex-direction: column;
     align-items: center;
     justify-content: center;
     flex-direction: row;
+    /* position: absolute; */
   }
  .user-list{
   /* height: 100vh; */
     border: 2px solid black;
     text-align: left;
+    display: flex;
+    flex-direction: column;
   }
   .controls-container {
     display: flex;
@@ -187,7 +201,7 @@ flex-direction: column;
   padding: 12px;
   background: #222; /* Dark background for modern UI */
   border-radius: 10px;
-  position: fixed;
+  position: relative;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
@@ -285,7 +299,12 @@ flex-direction: column;
 }
 
   .host-chatting {
+    position: fixed;
+    margin-left: 70%;
     width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     transition: width 0.3s ease-in-out;
   }

@@ -11,6 +11,7 @@ import fileimg from './file.png'
 import Test from './Test.js'
 import './grstudy.css';
 import AdminPage from './AdminPage.js'
+import LandingPage from './LandingPage.js';
 
 const SOCKET_SERVER_URL = 'https://virtualstudyroom2.onrender.com';
 const ICE_SERVERS = [{ urls: 'stun:stun.l.google.com:19302' }];
@@ -23,6 +24,7 @@ const RoomCreation = () => {
   const [showNotesPopup, setShowNotesPopup] = useState(false);
   const [hasNewFile, setHasNewFile] = useState(false); // Store notifications for remote users
   const [hasNewMessage, setHasNewMessage] = useState(false);
+  const [back,setIsback]= useState(false);
 
   const [showChat, setShowChat] = useState(false);
   const [test,setTest]= useState(false)
@@ -365,12 +367,15 @@ const toggleChat = () => {
 
 return (
   <>
-  {test?(
+  {back ? (
+    <LandingPage/>
+  ):test?(
     <Test goto={"roomcreation"}/>
   ):(
 
   <div className="host-full-page">
       <div className="host-upper-row">
+      <button onClick={()=>setIsback(true)}>Back</button>
       <h2>Welcome to Room: <a href={generatedRoomId} className="text-blue-500">{roomid}</a></h2>
       <p style={{color:"black"}}>Room Password: {password}</p>
       <input 

@@ -12,10 +12,11 @@ import axios from 'axios';
 import JoinSection from './JoinSection.js';
 import Todo from './Todo.js'
 import GrpTest from './GrpTest.js';
+import UserEngagement from './UserEngagement.js';
 
 const LandingPage = () => {
     const { usrData, GRData, updateData, ldata,appendData ,curUserData} = useContext(StudyContext);
-    console.log("landing log",ldata);
+    // console.log("landing log",ldata);
     
     const [curUser,setCuruser]=useState([])
     const [isStudy,setIsStudy]= useState(false)
@@ -26,6 +27,7 @@ const LandingPage = () => {
     // const [curLoginer,setCurLoginer]= useState({})
     const [isTask,setIsTask]= useState(false)
     const [isAdmin,setIsAdmin]= useState(false)
+    const [isQue,setIsQue]= useState(false)
     
 useEffect(()=>{
     axios.get('https://virtualstudyroom2.onrender.com/getloginers')
@@ -54,15 +56,15 @@ const validUser= curUser.find((user)=>{
         ):isAdmin?(
             <GrpTest val={"roomcr"}/>
         ):isLink?(
-            <JoinSection />
+            <UserEngagement />
         ):profile?(
             <ProfilePage />
         ):
         isTest?(
             <QuizMode />
         ):
-        isStudy?(
-            <GrStudyPage/>
+        isQue?(
+            <GrpTest val={"que"}/>
         ):isTask?(
             <Todo />
         ):(
@@ -70,23 +72,23 @@ const validUser= curUser.find((user)=>{
             <div className="page">
         <div className="header">
             <div className="logo">
-                <img src="https://tse1.mm.bing.net/th?id=OIP.dk7EtxhBCMLJEFLfVRzlAQHaHa&pid=Api&P=0&h=180" alt="Site Logo"/>
+                <img src="https://tse1.mm.bing.net/th?id=OIP.dk7EtxhBCMLJEFLfVRzlAQHaHa&pid=Api&P=0&h=180" alt="Site Logo" style={{width:"100%"}}/>
             </div>
             <div id="title">
                 <h1>Virtual Study Room</h1>
             </div>
                 <ul className="headerelement">
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/serv">Services</a></li>
+                    <li><a href="/cont">Contact</a></li>
                 </ul>
                 <div>
                 <h2>Hey {ldata.name}</h2>
                 </div>
                 {/* <img src='https://cdn3.iconfinder.com/data/icons/social-messaging-productivity-6/128/profile-male-circle2-512.png' onClick={()=>setProfile(true)} */}
                 {/* <img src={ldata.imagePath||defimg} style={{width:"30px"}} onClick={()=>setProfile(true)}/>              */}
-                <Avatar src={validUser && validUser.imagePath ? `https://virtualstudyroom2.onrender.com/${validUser.imagePath}` : defimg}  onClick={() => setProfile(true)} alt="User Avatar"/>
+                <Avatar src={validUser && validUser.imagePath ? `https://virtualstudyroom2.onrender.com/${validUser.imagePath}` : defimg}  onClick={() => setProfile(true)} alt="User Avatar"style={{cursor:"pointer"}}/>
 
         </div>
              <div className="contain">
@@ -98,9 +100,9 @@ const validUser= curUser.find((user)=>{
                         <h2>Welcome to the Virtual Study Room.Stay focused, stay motivated, and collaborate with peers to achieve your learning goals. Let's make the most of our study time together.</h2>
                     </div>
                     <div className="btn">
-                        <button onClick={()=>setIsStudy(true)}>STUDY ROOM</button> 
-                        <button onClick={()=>setIsAdmin(true)}>HOST</button>
-                        <button onClick={()=>setIsLink(true)}>JOIN</button>
+                        <button onClick={()=>setIsAdmin(true)}>STUDY ROOM</button> 
+                        <button onClick={()=>setIsLink(true)}>ANALYTICS</button>
+                        <button onClick={()=>setIsQue(true)}>SET TEST QUE</button>
                         <button onClick={()=>setIsTest(true)}>TEST</button>
                         <button onClick={()=>setIsTask(true)}>SET TASK</button>
                     </div>
@@ -125,8 +127,8 @@ const validUser= curUser.find((user)=>{
                 <a href="https://facebook.com/yourpage" target="_blank">Facebook</a> |
                 <a href="https://twitter.com/yourhandle" target="_blank">Twitter</a> |
                 <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
-                <a href='/whiteboard'>whiteboard</a>
-                <a href='/sptext'> speexh to text</a>
+
+                {/* <a href='/useng'>User engagement</a> */}
             </div>
         </div>
         {/* <a href='/quizsetque'>Quiz Que Set</a> */}

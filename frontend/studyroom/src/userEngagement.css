@@ -1,0 +1,80 @@
+.user-engagement-container {
+    padding: 1.5rem;
+    max-width: 640px;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-engagement-container h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .user-engagement-inputs {
+    margin-bottom: 1.5rem;
+  }
+  
+  .user-engagement-inputs input[type="text"],
+  .user-engagement-inputs input[type="date"] {
+    padding: 0.5rem;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .user-engagement-date-range {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .user-engagement-button {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .user-engagement-button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .error-text {
+    color: #dc2626;
+    margin-top: 0.5rem;
+  }
+  
+  .engagement-summary {
+    margin-top: 1.5rem;
+  }
+  
+  .engagement-summary h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .engagement-room {
+    border: 1px solid #e5e7eb;
+    background-color: #f3f4f6;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  .engagement-total {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #d1fae5;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  }
+  

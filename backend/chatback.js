@@ -12,6 +12,9 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const speech = require("@google-cloud/speech");
 const client = new speech.SpeechClient();
+const axios = require('axios');
+const { Parser } = require('json2csv');
+
 
 require('./imageDetails')
 
@@ -87,6 +90,17 @@ mongoose.connect(MONGO_URI, {
 .then(() => console.log("Connected to MongoDB"))
 .catch(err => console.log("MongoDB Connection Error:", err));
 
+const engagementSchema = new mongoose.Schema({
+  sessionId: String,
+  userId: String,
+  eventType: String,
+  roomId:String,
+  timestamp: { type: Date, default: Date.now },
+});
+
+const Engagement = mongoose.model('Engagement', engagementSchema);
+
+
 const userSchema= mongoose.Schema({name:String,email:String,password:String})
 const UserData= mongoose.model('UserData',userSchema)
 
@@ -119,9 +133,399 @@ const RealExaminer= mongoose.model('RealExaminer',realexaminerSchema)
 const authenticateschema= mongoose.Schema({  name: String,email:String, password: String, authid:String})
 const Authenticated= mongoose.model('Authenticated',authenticateschema)
 
+const reportschema= mongoose.Schema({repName:String, repemail:String,repmsg:String})
+const Report= mongoose.model('Report',reportschema)
+
 app.get('/',(req,res)=>{
   res.send("Hello man...")
 })
+
+app.post('/report',async(req,res)=>{
+  try{
+    const {repName, repemail,repmsg} = req.body;
+  const report= new Report({repName, repemail,repmsg})
+  await report.save()
+  res.json({message:"Your response has been saved "})
+  }catch(err){
+    console.log(err)
+  }
+  
+})
+
+// Google Custom Search API endpoint
+// Session start route (creates a new session)
+app.post('/session/start', async (req, res) => {
+  try {
+    const { userId, roomId } = req.body;
+    if (!userId || !roomId) return res.status(400).json({ error: 'Missing userId or roomId' });
+    // Engagement.deleteMany({});
+    const sessionId = `${userId}-${Date.now()}`;
+    const session = new Engagement({ sessionId, userId, roomId, eventType: 'start' });
+    await session.save();
+
+    res.status(200).json({ sessionId });
+  } catch (error) {
+    console.error('Error starting session:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Session end route (tracks the end event)
+app.post('/session/end', async (req, res) => {
+  try {
+    const { sessionId } = req.body;
+    if (!sessionId) return res.status(400).json({ error: 'Missing sessionId' });
+
+    const startEvent = await Engagement.findOne({ sessionId, eventType: 'start' });
+    if (!startEvent) return res.status(404).json({ error: 'Session not found' });
+
+    const session = new Engagement({ sessionId,userId: startEvent.userId,roomId: startEvent.roomId, eventType: 'end' });
+    await session.save();
+
+    res.status(200).json({ message: 'Session ended' });
+  } catch (error) {
+    console.error('Error ending session:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Track user activity
+app.post('/api/track', async (req, res) => {
+  try {
+    const { sessionId, eventType,roomId } = req.body;
+    if (!sessionId || !eventType) return res.status(400).json({ error: 'Missing data' });
+
+    const startEvent = await Engagement.findOne({ sessionId, eventType: 'start' });
+    if (!startEvent) return res.status(404).json({ error: 'Session not found' });
+
+    const event = new Engagement({ sessionId ,userId: startEvent.userId, roomId:startEvent.roomId, eventType});
+    await event.save();
+
+    res.status(200).json({ message: 'Event tracked' });
+  } catch (error) {
+    console.error('Error tracking event:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Get aggregated analytics for a single session
+app.get('/api/analytics/:sessionId', async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const results = await Engagement.aggregate([
+      { $match: { sessionId } },
+      { $group: { _id: '$eventType', count: { $sum: 1 } } },
+    ]);
+
+    res.status(200).json({ sessionId, data: results });
+  } catch (error) {
+    console.error('Error fetching analytics:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Get engagement event logs for a session
+app.get('/api/session/:sessionId/engagement', async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const events = await Engagement.find({ sessionId }).sort({ timestamp: 1 });
+    res.status(200).json(events);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch engagement data' });
+  }
+});
+
+app.get('/api/room-engagement/:roomId', async (req, res) => {
+  try {
+    const { roomId } = req.params;
+
+    const data = await Engagement.aggregate([
+      { $match: { roomId, userId: { $exists: true } } },
+      {
+        $group: {
+          _id: '$userId',
+          totalActive: {
+            $sum: { $cond: [{ $eq: ['$eventType', 'active'] }, 1, 0] }
+          },
+          totalIdle: {
+            $sum: { $cond: [{ $eq: ['$eventType', 'idle'] }, 1, 0] }
+          },
+          events: { $push: '$$ROOT' }
+        }
+      },
+      {
+        $addFields: {
+          points: {
+            $subtract: [
+              '$totalActive',
+              { $multiply: ['$totalIdle', 0.5] } // optional: deduct for idle
+            ]
+          }
+        }
+      }
+    ]);
+
+        console.log("the userdata is", data);
+    res.status(200).json({ roomId, users: data });
+  } catch (err) {
+    console.error('Error calculating engagement:', err);
+    res.status(500).json({ error: 'Failed to calculate engagement' });
+  }
+});
+
+// Get user engagement data for graph (filtered by date)
+app.get('/api/user/:userId/engagement-graph', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { from, to } = req.query;
+
+    const startDate = from ? new Date(from) : new Date(Date.now() - 7 * 24 * 60 * 60 * 1000); // default: last 7 days
+    const endDate = to ? new Date(to) : new Date();
+
+    const events = await Engagement.find({
+      userId,
+      timestamp: { $gte: startDate, $lte: endDate },
+    }).sort({ timestamp: 1 });
+
+    // Group by sessionId
+    const grouped = {};
+    for (const event of events) {
+      if (!grouped[event.sessionId]) {
+        grouped[event.sessionId] = {
+          sessionId: event.sessionId,
+          roomId: event.roomId,
+          events: [],
+          start: null,
+          end: null,
+        };
+      }
+      grouped[event.sessionId].events.push(event);
+      if (event.eventType === 'start') grouped[event.sessionId].start = event.timestamp;
+      if (event.eventType === 'end') grouped[event.sessionId].end = event.timestamp;
+    }
+
+    const sessions = Object.values(grouped).map((session) => {
+      const start = session.start ? new Date(session.start) : null;
+      const end = session.end ? new Date(session.end) : null;
+      const totalSeconds = start && end ? Math.floor((end - start) / 1000) : 0;
+
+      const activitySummary = session.events.reduce(
+        (acc, e) => {
+          if (e.eventType === 'active') acc.active++;
+          else if (e.eventType === 'idle') acc.idle++;
+          return acc;
+        },
+        { active: 0, idle: 0 }
+      );
+
+      return {
+        sessionId: session.sessionId,
+        roomId: session.roomId,
+        date: start ? start.toISOString().split('T')[0] : '',
+        totalSeconds,
+        active: activitySummary.active,
+        idle: activitySummary.idle,
+      };
+    });
+
+    res.json({ userId, sessions });
+  } catch (err) {
+    console.error('Error generating graph data:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+// app.get("/getUserEngagement/:userId", async (req, res) => {
+//   const { userId } = req.params;
+//   const { from, to } = req.query;
+
+//   try {
+//     const query = { userId };
+
+//     // Add date range filter if provided
+//     if (from && to) {
+//       query.timestamp = {
+//         $gte: new Date(from),
+//         $lte: new Date(to)
+//       };
+//     }
+
+//     const events = await Engagement.find(query)
+
+//     if (events.length === 0) {
+//       return res.status(404).json({ message: "No engagement data found for this user in the given range." });
+//     }
+
+//     // Helper function to format time
+//     const formatDuration = (ms) => {
+//       const totalSeconds = Math.floor(ms / 1000);
+//       const hours = Math.floor(totalSeconds / 3600);
+//       const minutes = Math.floor((totalSeconds % 3600) / 60);
+//       const seconds = totalSeconds % 60;
+//       return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+//     };
+
+//     // Group events by roomId
+//     const roomGroups = {};
+//     for (const event of events) {
+//       const room = event.roomId;
+//       if (!roomGroups[room]) roomGroups[room] = [];
+//       roomGroups[room].push(event);
+//     }
+
+//     let grandTotalMs = 0;
+//     const engagement = [];
+
+//     for (const roomId in roomGroups) {
+//       const logs = roomGroups[roomId].sort(
+//         (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+//       );
+
+//       let startTime = null;
+//       let roomTotalMs = 0;
+
+//       for (const log of logs) {
+//         if (log.eventType === "start") {
+//           startTime = new Date(log.timestamp);
+//         } else if (log.eventType === "leave" && startTime) {
+//           const endTime = new Date(log.timestamp);
+//           roomTotalMs += endTime - startTime;
+//           startTime = null;
+//         }
+//       }
+
+//       grandTotalMs += roomTotalMs;
+
+//       engagement.push({
+//         roomId,
+//         totalMinutes: Math.floor(roomTotalMs / 60000),
+//         duration: formatDuration(roomTotalMs),
+//       });
+//     }
+
+//     res.json({
+//       userId,
+//       engagement,
+//       grandTotalMinutes: Math.floor(grandTotalMs / 60000),
+//       grandTotalFormatted: formatDuration(grandTotalMs),
+//     });
+
+//   } catch (err) {
+//     console.error("❌ Error fetching engagement:", err);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
+app.get("/getUserEngagement/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const { from, to } = req.query;
+
+  try {
+    const query = { userId };
+
+    // Add date range filter if provided
+    if (from && to) {
+      query.timestamp = {
+        $gte: new Date(from),
+        $lte: new Date(to),
+      };
+    }
+
+    const events = await Engagement.find(query) // ← Ensure you're using .toArray() if using native MongoDB driver
+
+    if (events.length === 0) {
+      return res.status(404).json({ message: "No engagement data found for this user in the given range." });
+    }
+
+    // Helper function to format time
+    const formatDuration = (ms) => {
+      const totalSeconds = Math.floor(ms / 1000);
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    };
+
+    // Group events by roomId
+    const roomGroups = {};
+    for (const event of events) {
+      const room = event.roomId;
+      if (!roomGroups[room]) roomGroups[room] = [];
+      roomGroups[room].push(event);
+    }
+
+    let grandTotalMs = 0;
+    const engagement = [];
+
+    for (const roomId in roomGroups) {
+      const logs = roomGroups[roomId].sort(
+        (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+      );
+
+      let startTime = null;
+      let roomTotalMs = 0;
+
+      for (const log of logs) {
+        if (log.eventType === "start") {
+          startTime = new Date(log.timestamp);
+        } else if (log.eventType === "leave" && startTime) {
+          const endTime = new Date(log.timestamp);
+          roomTotalMs += endTime - startTime;
+          startTime = null;
+        }
+      }
+
+      // If user never left the room, assume still active until now
+      if (startTime) {
+        const now = new Date();
+        roomTotalMs += now - startTime;
+      }
+
+      grandTotalMs += roomTotalMs;
+
+      engagement.push({
+        roomId,
+        totalMinutes: Math.floor(roomTotalMs / 60000),
+        duration: formatDuration(roomTotalMs),
+      });
+    }
+
+    res.json({
+      userId,
+      engagement,
+      grandTotalMinutes: Math.floor(grandTotalMs / 60000),
+      grandTotalFormatted: formatDuration(grandTotalMs),
+    });
+
+  } catch (err) {
+    console.error("❌ Error fetching engagement:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+app.get("/resources", async (req, res) => {
+  const query = req.query.q;
+  if (!query) return res.status(400).json({ error: "Query is required" });
+
+  const apiKey = process.env.GOOGLE_API_KEY;
+  const cx = process.env.GOOGLE_CX; // Custom Search Engine ID
+
+  try {
+    const response = await axios.get(
+      `https://www.googleapis.com/customsearch/v1?q=${query}&key=${apiKey}&cx=${cx}`
+    );
+
+    const results = response.data.items.map((item) => ({
+      title: item.title,
+      link: item.link,
+      snippet: item.snippet,
+    }));
+
+    res.json(results);
+  } catch (error) {
+    console.error("Error fetching search results", error.message);
+    res.status(500).json({ error: "Failed to fetch resources" });
+  }
+});
 
 // Configure Multer for Audio Uploads
 const audioStorage = multer.memoryStorage(); // Store audio in memory
@@ -421,6 +825,22 @@ app.get('/getauthdatas',(req,res)=>{
   })
 })
 
+
+app.post('/matchauth', (req, res) => {
+  const emailId = req.body.emailId;
+console.log("it the email",emailId);
+
+  Authenticated.find({ email: emailId }).then((auth) => {
+    if (auth.length > 0) {
+      res.json({ data: auth, message: "its authenticated" });
+    } else {
+      res.json({ message: "authentication failed - email not found" });
+    }
+  }).catch(() => {
+    res.status(500).json({ message: "server error" });
+  });
+});
+
 app.post('/userreg',(req,res)=>{
   try{
     const { name, email, password }= req.body;
@@ -479,15 +899,17 @@ const RoomSchema = new mongoose.Schema({
   createdAt: {
       type: Date,
       default: Date.now,
-      expires: '1d'  // Optional: auto-delete after 1 day
-  }
+      // expires: '1d'  // Optional: auto-delete after 1 day
+  },
+  expiresAt: { type: Date},
+  isActive: { type: Boolean, default: true }
 });
 
 const Room = mongoose.model('Room', RoomSchema);
 
 // API to create a room
 app.post('/create-room', async (req, res) => {
-  const { roomId, roomPassword } = req.body;
+  const { roomId, roomPassword,duration } = req.body;
 
   if (!roomId || !roomPassword) {
     return res.status(400).json({ success: false, message: 'Room ID and password are required' });
@@ -500,11 +922,15 @@ app.post('/create-room', async (req, res) => {
       return res.status(409).json({ success: false, message: 'Room ID already exists' });
     }
 
+     // Calculate expiry time
+     const createdAt = new Date();
+     const expiresAt = new Date(createdAt.getTime() + duration * 60000); // duration in minutes
+
     // Save new room
-    const newRoom = new Room({ roomId, roomPassword });
+    const newRoom = new Room({ roomId, roomPassword,createdAt,expiresAt,isActive:true });
     await newRoom.save();
 
-    return res.status(201).json({ success: true, message: 'Room created successfully', roomId });
+    return res.status(201).json({ success: true, message: 'Room created successfully', roomId ,expiresAt});
   } catch (error) {
     console.error('Error creating room:', error);
     return res.status(500).json({ success: false, message: 'Internal server error' });
@@ -560,6 +986,39 @@ app.post('/check-room', async (req, res) => {
     });
   }
 });
+
+app.get('/room/:roomId', async (req, res) => {
+  console.log("user passsed roomid is",req.params);
+  
+  const { roomId } = req.params;
+  console.log("the roomId is",roomId);
+  
+  try {
+    const room = await Room.findOne({ roomId });
+
+    if (!room) {
+      return res.status(404).json({ success: false, message: 'Room not found' });
+    }
+
+    // Optional: Check if the room has expired
+    const now = new Date();
+    if (now > room.expiresAt) {
+      return res.status(410).json({ success: false, message: 'Room has expired' });
+    }
+
+    return res.status(200).json({
+      success: true,
+      roomId: room.roomId,
+      expiresAt: room.expiresAt,
+      createdAt: room.createdAt,
+      isActive: room.isActive
+    });
+  } catch (error) {
+    console.error('Error fetching room:', error);
+    return res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
 
 const rooms = {};
 const users = {};
@@ -629,7 +1088,7 @@ socket.on('join-user', ({ username, roomid, password }) => {
   io.to(roomid).emit('joined', rooms[roomid]);
   // console.log("Updated Room Data:", rooms[roomid]);
 
-  console.log(`User ${username} joined room ${roomid} with ID: ${socket.id}`);
+  // console.log(`User ${username} joined room ${roomid} with ID: ${socket.id}`);
 });
 
 
@@ -648,7 +1107,7 @@ socket.on('register', ({ username, roomid }) => {
     rooms2[roomid][username] = { socketId: socket.id, roomid };
   }
 
-    console.log(`Registered user: ${username} with ID: ${socket.id} in Room: ${roomid}`);
+    // console.log(`Registered user: ${username} with ID: ${socket.id} in Room: ${roomid}`);
   } else {
     console.log("No users have registered..");
   }

@@ -3,7 +3,7 @@ import { StudyContext } from "./Store.js";
 import LandingPage from './LandingPage.js';
 import logo from './default-profileimg.webp'
 import {Avatar} from "@mui/material"
-import './profile.css'
+import './profile2.css'
 import boyimg from './profilepage-boy-img.jpg'
 import axios from 'axios';
 
@@ -149,7 +149,7 @@ const renderContent = () => {
     case "notifications":
       return <h2>Notification Center</h2>;
     default:
-      return <img src={boyimg} style={{width:"95%",height:"60vh"}}/>;
+      return <img src={boyimg} style={{width:"90%",height:"55vh"}}/>;
   }
 };
 
@@ -176,18 +176,35 @@ const renderContent = () => {
           </div>
           <button className="button" onClick={() => setIsavatar(false)}>Back</button>
         </>
-      ) : isLandAllowed ? (
+      ) : (isLandAllowed || isLand)  ? (
         <LandingPage />
-      ) : isLand ? (
-        <LandingPage />
-      ) : (
+      ) 
+      // : isLand ? (
+      //   <LandingPage />
+      // ) 
+      : (
         <div className="profile-container">
-        <div className="upper-img-div" style={{ height: "35vh", border: "1px solid black" }}>
-
-        </div>
+        {/* <div className="upper-img-div" style={{ height: "35vh", border: "1px solid black" }}>
+        <button onClick={()=>setIsLand(true)}
+              style={{width:"100px",height:"30px",borderRadius:"10px",backgroundColor:"black"}}>Back</button>
+        </div> */}
 
         <div className="middle-div">
           <div className="middle-avatar-div">
+          <button onClick={()=>setIsLand(true)}
+      style={{
+        alignSelf: "flex-start",
+        marginBottom: "1rem",
+        padding: "0.4rem 1rem",
+        backgroundColor: "black",
+        color: "white",
+        border: "none",
+        borderRadius: "10px",
+        cursor: "pointer",
+      }}
+    >
+      Back
+    </button>
             <Avatar
               className="profile-avatar"
               src={
@@ -201,7 +218,7 @@ const renderContent = () => {
             <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
             <h2>{curuser.name}</h2>
             <button  onClick={() => setIsavatar(true)} 
-            style={{width:"100px",height:"30px",borderRadius:"10px",backgroundColor:"lightgreen"}}
+            // style={{width:"100px",height:"30px",borderRadius:"10px",backgroundColor:"lightgreen"}}
             >
               Edit Avatar
             </button>
@@ -210,7 +227,7 @@ const renderContent = () => {
 
           <div className="lower-content-div">
             <div className="nav-options">
-              <h2 onClick={() => setSelectedOption("account")}>Account</h2>
+              <h2 onClick={() => setSelectedOption("account")} className='badhabe'>Account</h2>
               <h2 onClick={() => setSelectedOption("contact")}>Contact</h2>
               <h2 onClick={() => setSelectedOption("logout")}>Logout</h2>
               <h2 onClick={() => setSelectedOption("switch")}>
@@ -219,17 +236,23 @@ const renderContent = () => {
               <h2 onClick={() => setSelectedOption("notifications")}>
                 Notifications
               </h2>
+             
             </div>
 
-            <div className="lower-right-div">{renderContent()}</div>
+            <div className="lower-right-div" style={{  bottom: 0, right: 0, width: "300px", height: "400px"}}>
+               <div style={{ overflowY: "auto", height: "95%" }}>
+    {renderContent()}
+  </div></div>
           </div>
         </div>
-            <button onClick={()=>setIslandAllowed(true)}
-              style={{width:"100px",height:"30px",borderRadius:"10px",backgroundColor:"lightgreen"}}>Back</button>
+          
       </div>
       )}
     </>
   );
+  
+ 
+  
   
 };
 

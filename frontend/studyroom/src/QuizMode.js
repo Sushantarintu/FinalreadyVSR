@@ -4,6 +4,7 @@ import axios from 'axios';
 import LeaderBoard from './LeaderBoard.js'
 import formimg from './exam-form.jpg'
 import './quizMode.css'; // Import the CSS file
+import LandingPage from './LandingPage.js';
 
 const Timer = ({ timeLeft }) => (
   <div>Time Left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}s</div>
@@ -11,6 +12,7 @@ const Timer = ({ timeLeft }) => (
 
 const QuizMode = () => {
   const { ldata,updateExaminerData,examinerData } = useContext(StudyContext);
+  const [back,setIsBack]= useState(false)
   const timerIdRef = useRef(null); // Keep track of the timer
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -159,7 +161,9 @@ const QuizMode = () => {
 
   return (
     <>
-    {isleaderBoard?(
+    {back ? (
+      <LandingPage/>
+      ):isleaderBoard?(
       <LeaderBoard />
     ):
     isStExam ? (
@@ -261,12 +265,13 @@ const QuizMode = () => {
                 onChange={handleChange}
               />
         <button onClick={handleStartExam} className='mobutton'>Start Exam</button>
+        <button onClick={()=>setIsBack(true)} className='mobutton'>Back</button>
       </div>
       <div className='right-im-div'>
           <img src={formimg}/>
         </div>
       </div>
-      <a href='/leaderboard'>Leaderboard</a>
+      {/* <a href='/leaderboard'>Leaderboard</a> */}
       </div>
     )}
     </>

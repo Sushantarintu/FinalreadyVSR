@@ -21,6 +21,12 @@ import GrpTest from './GrpTest.js'
 import AdminPage from './AdminPage.js'
 import WelcomePage from './WelcomePage.js'
 import SpeechToText from './SpeechToText.js'
+import FetchRes from './FetchRes.js'
+import EngagementDetails from './EngagementDetails.js'
+import AboutPage from './AboutPage.js'
+import ServicesPage from './ServicesPage.js'
+import ContactPage from './ContactPage .js'
+import UserEngagement from './UserEngagement.js'
 
 
 const Secondary = () => {
@@ -32,8 +38,14 @@ const Secondary = () => {
         <Route path='/' element={<WelcomePage />}/>
             {/* <Route path='/' element={<LandingPage />}/> */}
             <Route path='/whiteboard' element={<Whiteboard />}/>
+            <Route path='/useng' element={<UserEngagement />}/>
+            <Route path='/about' element={<AboutPage />}/>
+            <Route path='/serv' element={<ServicesPage />}/>
+            <Route path='/cont' element={<ContactPage />}/>
+            <Route path='/engdetail' element={<EngagementDetails />}/>
             <Route path='/sptext' element={<SpeechToText />}/>
             <Route path='/testing' element={<Test />}/>
+            <Route path='/fetres' element={<FetchRes />}/>
             <Route path='/quizmode' element={<QuizMode />}/>
             <Route path='/joinsec' element={<JoinSection />}/>
             <Route path='/ranquiz' element={<RandomQuiz />}/>

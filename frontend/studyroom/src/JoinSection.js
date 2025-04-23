@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import joinroomimg from "./Join-link-photo.jpg";
 import "./joinsection.css";
 import axios from 'axios'
+import LandingPage from "./LandingPage";
 
 const JoinSection = () => {
   const [roomLink, setRoomLink] = useState("");
   const [roomPassword, setRoomPassword] = useState("");
   const navigate = useNavigate();
-
+  const [back,setIsback]= useState(false);
   
   const handleJoin = async () => {
     if (!roomLink || !roomPassword) {
@@ -64,7 +65,11 @@ const JoinSection = () => {
   }
 
   return (
-    <div className="join-container">
+    <>
+    {back ? (
+      <LandingPage/>
+    ):(
+      <div className="join-container">
       <div className="join-content">
         <h2>Join a Study Room</h2>
         <p>Enter the link of the study room you want to join below.</p>
@@ -83,6 +88,7 @@ const JoinSection = () => {
           onChange={(e) => setRoomPassword(e.target.value)}
         />
         <button onClick={handleJoin}>Join Room</button>
+        <button onClick={()=>setIsback(true)}>Back</button>
 
         <p className="instruction">
           Click the join button after entering the link.
@@ -93,6 +99,8 @@ const JoinSection = () => {
         <img src={joinroomimg} alt="Join Room" />
       </div>
     </div>
+    )}
+    </>
   );
 };
 

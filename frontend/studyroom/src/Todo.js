@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './todo.css'
+import LandingPage from './LandingPage';
 
 const Todo = () => {
     const [task, setTask] = useState('');
     const [allTasks, setAllTasks] = useState([]);
+    const [back,setIsBack]= useState(false);
 
     // Fetch tasks from backend on component mount
     useEffect(() => {
@@ -43,7 +45,11 @@ const Todo = () => {
     };
 
     return (
-        <div className="todo-container">
+        <>
+        {back ? (
+            <LandingPage/>
+            ):(
+                <div className="todo-container">
             <h1 className="todo-title">Todo List</h1>
             <div className="input-section">
                 <input
@@ -62,7 +68,10 @@ const Todo = () => {
                     <button onClick={() => handleDel(curtask._id)}>Delete</button>
                 </div>
             ))}
+            <button onClick={()=>setIsBack(true)}>Back</button>
         </div>
+            )}
+            </>
     );
     
 };

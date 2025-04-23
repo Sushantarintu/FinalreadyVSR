@@ -12,18 +12,18 @@ const SignUp = () => {
     email: '',
     password: '',
   });
-  const [signedUsers, setSignedUsers] = useState([]);
+  // const [signedUsers, setSignedUsers] = useState([]);
   const [isAllowed, setIsAllowed] = useState(false);
   const { updateData, ldata } = useContext(StudyContext);
   const [isRegistered, setIsRegistered] = useState(false);
 
-  useEffect(() => {
-    axios.get('https://virtualstudyroom2.onrender.com/getUserData')
-      .then(response => {
-        setSignedUsers(response.data);
-      })
-      .catch(error => console.error('Error fetching users:', error));
-  }, []);
+  // useEffect(() => {
+  //   axios.get('https://virtualstudyroom2.onrender.com/getUserData')
+  //     .then(response => {
+  //       setSignedUsers(response.data);
+  //     })
+  //     .catch(error => console.error('Error fetching users:', error));
+  // }, []);
 
   const handleInputChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });

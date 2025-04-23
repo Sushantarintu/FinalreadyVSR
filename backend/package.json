@@ -12,6 +12,7 @@
   "dependencies": {
     "@google-cloud/speech": "^7.0.1",
     "@mui/material": "^6.4.3",
+    "axios": "^1.8.4",
     "connect-mongo": "^5.1.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -19,6 +20,7 @@
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "fs": "^0.0.1-security",
+    "json2csv": "^6.0.0-alpha.2",
     "mongoose": "^8.9.5",
     "multer": "^1.4.5-lts.1",
     "path": "^0.12.7",

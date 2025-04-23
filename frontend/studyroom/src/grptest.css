@@ -1,0 +1,90 @@
+/* Reset and base settings */
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  } */
+  
+   .vsr-container-main {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: whitesmoke;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+  } 
+  
+  /* Unique container */
+  .vsr-container {
+    width: 90%;
+    max-width: 400px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    
+  }
+  
+  /* Inputs */
+  .vsr-input {
+    width: 100%;
+    margin: 12px 0;
+    padding: 12px;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  
+  .vsr-input::placeholder {
+    color: #999;
+  }
+  
+  .vsr-input:focus {
+    border-color: #00c853;
+    outline: none;
+  }
+  
+  /* Buttons */
+  .vsr-button {
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    background-color: #00c853;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .movealign{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  
+  .vsr-button:hover {
+    background-color: #00b248;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 480px) {
+    .vsr-container {
+      padding: 20px;
+      max-width: 95%;
+    }
+  
+    .vsr-input,
+    .vsr-button {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+  

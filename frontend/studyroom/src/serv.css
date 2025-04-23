@@ -1,0 +1,89 @@
+/* Global Reset */
+.helaau {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9fafb;
+    color: #1f2937;
+  }
+  
+  /* Hero Section */
+  .services-hero {
+    background-color: #6366f1;
+    color: white;
+    text-align: center;
+    padding: 4rem 1rem 3rem;
+  }
+  
+  .services-hero h1 {
+    font-size: 2.75rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .services-hero p {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  /* Services Section */
+  .services-section {
+    padding: 4rem 1rem;
+    background-color: #ffffff;
+  }
+  
+  .services-grid {
+    display: grid;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    grid-template-columns: 1fr;
+  }
+  
+  @media (min-width: 768px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .services-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .service-card {
+    background-color: #f3f4f6;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+  
+  .service-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #111827;
+  }
+  
+  .service-card p {
+    font-size: 1rem;
+    color: #374151;
+    line-height: 1.6;
+  }
+  
+  /* Footer */
+  .serv-footer {
+    background-color: #6366f1;
+    color: white;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    margin-top: 4rem;
+  }
+  

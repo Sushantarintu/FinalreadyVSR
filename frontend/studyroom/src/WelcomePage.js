@@ -31,13 +31,15 @@ const WelcomePage = () => {
         alert('Please enter a valid email.');
         return;
       } else {
-        const matchedUser = signedUsers2.find(
+        const matchedUser2 = signedUsers2.find(
           (curUser) => curUser.email === loginEmail2 && curUser.password === loginPass2
         );
-        if (matchedUser) {
-          axios.post('https://virtualstudyroom2.onrender.com/loginers', matchedUser);
+        if (matchedUser2) {
+          console.log("this is teh loginer:",matchedUser2);
+          
+          axios.post('https://virtualstudyroom2.onrender.com/loginers', matchedUser2);
           setIsAllowed2(true);
-          updateData(matchedUser); 
+          updateData(matchedUser2); 
     
         } else {
           alert('No Such User Exists');
@@ -58,11 +60,10 @@ const WelcomePage = () => {
           <nav className="navdiv">
             <div className="praroz leftside">LOGO</div>
             <ul>
-              <li><a href="">HOME</a></li>
-              <li><a href="">ABOUT</a></li>
-              <li><a href="">SERVICES</a></li>
-              <li><a href="">DESIGN</a></li>
-              <li><a href="">CONTACT</a></li>
+            <li><a href="#" style={{fontSize:"20px"}}>Home</a></li>
+            <li><a href="/about" style={{fontSize:"20px"}}>About</a></li>
+            <li><a href="/serv" style={{fontSize:"20px"}}>Services</a></li>
+            <li><a href="/cont" style={{fontSize:"20px"}}>Contact</a></li>
             </ul>
             <div id="dd">
               {/* <input type="text" id="in" placeholder="Type to text" />

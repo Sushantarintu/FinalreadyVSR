@@ -5,12 +5,10 @@ export const StudyContext = createContext();
 
 export const MyProvider = ({ children }) => {
   const [ldata, setLData] = useState({user:'def',name:'guest'});
-  // const [curUserData, setCurUsData] = useState({});
   const [examinerData, setExaminerData] = useState({});
-  // { userId: "defaultUser", name: "Guest" }
   const [userData, setUserData] = useState([]);
-  // const [allLoginers,setAllLoginers]= useState([])
   const [GRData, setGRData] = useState([]);
+  const [curauth,setCurAuth]= useState({})
 
   useEffect(() => {
     let isMounted = true;
@@ -68,7 +66,14 @@ export const MyProvider = ({ children }) => {
     }
   };
   
-
+const updateauthdata= async(newdata)=>{
+  try{
+    setCurAuth(newdata)
+  }catch(err){
+    console.log("ERROR",err);
+    
+  }
+}
   // useEffect(()=>{
   //   let isMounted = true;
   //   axios.get('http://localhost:3009/getCuruserData')
@@ -103,8 +108,8 @@ export const MyProvider = ({ children }) => {
 
 
   const contextValue = useMemo(
-    () => ({ userData, GRData, updateData,examinerData,updateExaminerData,ldata }),
-    [userData, GRData,examinerData,ldata]
+    () => ({ userData, GRData, updateData,examinerData,updateExaminerData,ldata,updateauthdata,curauth }),
+    [userData, GRData,examinerData,ldata,curauth]
   );
 
   return (
