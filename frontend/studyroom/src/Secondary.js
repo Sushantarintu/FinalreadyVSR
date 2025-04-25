@@ -25,7 +25,7 @@ import FetchRes from './FetchRes.js'
 import EngagementDetails from './EngagementDetails.js'
 import AboutPage from './AboutPage.js'
 import ServicesPage from './ServicesPage.js'
-import ContactPage from './ContactPage .js'
+import ContactPage from './ContactPage.js'
 import UserEngagement from './UserEngagement.js'
 
 
