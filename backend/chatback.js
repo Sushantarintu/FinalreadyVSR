@@ -28,8 +28,8 @@ const allowedOrigins = [
   "https://virtual-study-room2-git-master-sushanta-bhattas-projects.vercel.app/",
    "https://virtual-study-room2.vercel.app",
    "https://ready-vsr.vercel.app",
-  "https://finalready-vsr.vercel.app/",
-  "https://vercel.com/sushanta-bhattas-projects/finalready-vsr/7fVu6BNF7moHbS69k9EyhNwSQTS3"
+  "https://finalready-vsr.vercel.app",
+  // "https://vercel.com/sushanta-bhattas-projects/finalready-vsr/7fVu6BNF7moHbS69k9EyhNwSQTS3"
 ];
 
 // app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
@@ -58,7 +58,7 @@ let allNotes = {}; // { roomId: [ note1, note2 ] }
 
 const server = http.createServer(app);
 const io = require('socket.io')(server, {
-  cors: { origin: allowedOrigins, methods: ['GET', 'POST'] },
+  cors: { origin: allowedOrigins, methods: ['GET', 'POST'],credentials: true },
 });
 
 const allusers = {};
