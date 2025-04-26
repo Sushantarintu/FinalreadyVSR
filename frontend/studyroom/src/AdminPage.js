@@ -26,7 +26,7 @@ const AdminPage = ({grpval}) => {
     useEffect(() => {
         let isMounted = true;
         axios
-          .get('http://localhost:10000/getauthdatas')
+          .get('https://readyvsr.onrender.com/getauthdatas')
           .then((authdata) => {
             if (isMounted) setauthDatas(authdata.data);
           })
@@ -54,7 +54,7 @@ const AdminPage = ({grpval}) => {
             authid: authid
         };
 
-        axios.post("http://localhost:10000/authenticatedusers", authUsers)
+        axios.post("https://readyvsr.onrender.com/authenticatedusers", authUsers)
             .then((res) => {
                 console.log(res);
             })

@@ -40,7 +40,7 @@ const SignUp = () => {
     }
   
     try {
-      const regResponse = await axios.post('https://virtualstudyroom2.onrender.com/userreg', userData);
+      const regResponse = await axios.post('https://readyvsr.onrender.com/userreg', userData);
       alert(regResponse.data.message || "Registration successful!");
       
       // await axios.post('http://localhost:3009/curloginer', userData);

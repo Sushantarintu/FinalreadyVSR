@@ -16,7 +16,7 @@ const WelcomePage = () => {
     const [signup,setSignUp]= useState(false)
 
     useEffect(() => {
-      axios.get('https://virtualstudyroom2.onrender.com/getUserData')
+      axios.get('https://readyvsr.onrender.com/getUserData')
         .then(response => {
           setSignedUsers2(response.data);
         })
@@ -37,7 +37,7 @@ const WelcomePage = () => {
         if (matchedUser2) {
           console.log("this is teh loginer:",matchedUser2);
           
-          axios.post('https://virtualstudyroom2.onrender.com/loginers', matchedUser2);
+          axios.post('https://readyvsr.onrender.com/loginers', matchedUser2);
           setIsAllowed2(true);
           updateData(matchedUser2); 
     

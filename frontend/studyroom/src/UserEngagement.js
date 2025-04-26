@@ -14,7 +14,7 @@ const UserEngagement = () => {
     setError("");
     setEngagementData(null);
 
-    let url = `http://localhost:10000/getUserEngagement/${userId}`;
+    let url = `https://readyvsr.onrender.com/getUserEngagement/${userId}`;
     if (fromDate && toDate) {
       url += `?from=${fromDate}&to=${toDate}`;
     }

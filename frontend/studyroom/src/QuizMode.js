@@ -44,7 +44,7 @@ const QuizMode = () => {
   useEffect(() => {
     let isMounted = true;
     axios
-      .get('https://virtualstudyroom2.onrender.com/getquizques')
+      .get('https://readyvsr.onrender.com/getquizques')
       .then((quizdata) => {
         if (isMounted) setQuizQuestions(quizdata.data);
       })
@@ -148,7 +148,7 @@ const QuizMode = () => {
     console.log('Final Examiner Data:', finalExaminer);
     
     updateExaminerData(examiner)
-    axios.post("http://localhost:10000/examinerdata2", finalExaminer)
+    axios.post("https://readyvsr.onrender.com/examinerdata2", finalExaminer)
       .then((res) => {
         console.log(res.data.message);
       })

@@ -12,13 +12,13 @@ export const MyProvider = ({ children }) => {
 
   useEffect(() => {
     let isMounted = true;
-    axios.get('https://virtualstudyroom2.onrender.com/getUserData')
+    axios.get('https://readyvsr.onrender.com/getUserData')
       .then((userdata) => {
         if (isMounted) setUserData(userdata.data);
       })
       .catch((err) => console.log(err));
 
-    axios.get('https://virtualstudyroom2.onrender.com/getGrData')
+    axios.get('https://readyvsr.onrender.com/getGrData')
       .then((grData) => {
         if (isMounted) setGRData(grData.data);
       })
@@ -53,11 +53,11 @@ export const MyProvider = ({ children }) => {
   const updateData = async (newData) => {
     try {
       console.log("Previous data in context:", ldata);
-      await axios.post('https://virtualstudyroom2.onrender.com/curloginer', newData);
+      await axios.post('https://readyvsr.onrender.com/curloginer', newData);
       console.log("Data sent successfully.");
   
       // Fetch the updated current user data after posting
-      const response = await axios.get('https://virtualstudyroom2.onrender.com/getCuruserData');
+      const response = await axios.get('https://readyvsr.onrender.com/getCuruserData');
       setLData(response.data);
       console.log("Fetched updated curUserData:", response.data);
   

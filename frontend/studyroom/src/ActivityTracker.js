@@ -5,7 +5,7 @@ const ActivityTracker = ({ sessionId ,roomid2,userId}) => {
   // Function to handle active state
   const handleOnActive = () => {
     if (!sessionId) return; // Ensure sessionId exists
-    fetch('http://localhost:10000/api/track', {
+    fetch('https://readyvsr.onrender.com/api/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sessionId, eventType: 'active',roomId:roomid2,userId }) // Sending active event type
@@ -16,7 +16,7 @@ const ActivityTracker = ({ sessionId ,roomid2,userId}) => {
   const handleOnIdle = () => {
     console.log('User is idle');
     if (!sessionId) return;
-    fetch('http://localhost:10000/api/track', {
+    fetch('https://readyvsr.onrender.com/api/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sessionId, eventType: 'idle',roomId:roomid2,userId }) // Sending idle event type

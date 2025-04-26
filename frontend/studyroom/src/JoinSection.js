@@ -23,7 +23,7 @@ const JoinSection = () => {
   const extractedRoute = urlParts[urlParts.length - 2]; // `create-room` or `study`
   console.log("Extracted Route:", extractedRoute);
     try {
-      const response = await axios.post('http://localhost:10000/check-room', {
+      const response = await axios.post('https://readyvsr.onrender.com/check-room', {
         roomId: extractedRoomId,
         roomPassword: roomPassword
       });

@@ -41,7 +41,7 @@ const QuizQueSection = () => {
 
     console.log(dataToSend);
 
-    axios.post('http://localhost:10000/quizdata', dataToSend)
+    axios.post('https://readyvsr.onrender.com/quizdata', dataToSend)
       .then((res) => {
         console.log(res.data.message);
         setSubName('');

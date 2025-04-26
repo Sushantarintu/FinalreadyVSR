@@ -34,7 +34,7 @@ const ProfilePage = () => {
       
 
 useEffect(()=>{
-  axios.get('https://virtualstudyroom2.onrender.com/getloginers')
+  axios.get('https://readyvsr.onrender.com/getloginers')
         .then((res)=>{
           console.log(res.data);
           setAllAccounts(res.data)
@@ -47,7 +47,7 @@ const validUser = useMemo(() => {
 }, [allAccounts, curuser.email]);
 
 useEffect(() => {
-  fetch('https://virtualstudyroom2.onrender.com/images')
+  fetch('https://readyvsr.onrender.com/images')
     .then(res => res.json())
     .then(data => {
       if (data.status === "ok") {
@@ -80,7 +80,7 @@ const handleUpload = () => {
   formData.append('file', imageFile);
   formData.append('email',curuser.email );
 
-  fetch('https://virtualstudyroom2.onrender.com/upload-image', {
+  fetch('https://readyvsr.onrender.com/upload-image', {
     method: 'POST',
     body: formData
   })
@@ -136,7 +136,7 @@ const renderContent = () => {
         <div className="account-list">
           {allAccounts.map((curloginer, index) => (
             <div key={index} className="account-item" onClick={() => handleChooseLogin(index)}>
-              <Avatar src={curloginer.imagePath ? `https://virtualstudyroom2.onrender.com/${curloginer.imagePath}` : logo} />
+              <Avatar src={curloginer.imagePath ? `https://readyvsr.onrender.com/${curloginer.imagePath}` : logo} />
               <div>
                 <h2>{curloginer.name}</h2>
                 <p>{curloginer.email}</p>

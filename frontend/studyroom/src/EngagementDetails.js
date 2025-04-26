@@ -8,7 +8,7 @@ const EngagementDetails = ({ sessionId }) => {
 
     const fetchEvents = async () => {
       try {
-        const res = await fetch(`http://localhost:10000/api/session/${sessionId}/engagement`);
+        const res = await fetch(`https://readyvsr.onrender.com/api/session/${sessionId}/engagement`);
         const data = await res.json();
         setEvents(data);
       } catch (err) {

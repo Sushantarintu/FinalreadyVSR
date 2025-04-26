@@ -30,7 +30,7 @@ const LandingPage = () => {
     const [isQue,setIsQue]= useState(false)
     
 useEffect(()=>{
-    axios.get('https://virtualstudyroom2.onrender.com/getloginers')
+    axios.get('https://readyvsr.onrender.com/getloginers')
     .then((res)=>{
         setCuruser(res.data)
     })

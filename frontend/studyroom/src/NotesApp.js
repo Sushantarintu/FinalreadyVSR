@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:10000"); // Connect to your socket server
+const socket = io("https://readyvsr.onrender.com"); // Connect to your socket server
 
 const NotesApp = ({ roomId, username, setHasNewFile }) => {
   const [notes, setNotes] = useState([]);
@@ -61,7 +61,7 @@ const NotesApp = ({ roomId, username, setHasNewFile }) => {
       formData.append("file", uploadedFile);
 
       try {
-        const response = await axios.post("http://localhost:10000/upload-file", formData, {
+        const response = await axios.post("https://readyvsr.onrender.com/upload-file", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
@@ -85,7 +85,7 @@ const NotesApp = ({ roomId, username, setHasNewFile }) => {
   // ---------- Fetch Existing Files (Optional) ----------
   const fetchFiles = async () => {
     try {
-      const response = await axios.get(`http://localhost:10000/files?roomId=${roomId}`);
+      const response = await axios.get(`https://readyvsr.onrender.com/files?roomId=${roomId}`);
       if (response.data) setFiles(response.data);
     } catch (error) {
       console.error("Failed to fetch files:", error);
@@ -95,7 +95,7 @@ const NotesApp = ({ roomId, username, setHasNewFile }) => {
   // ---------- Fetch Existing Notes (Optional) ----------
   const fetchNotes = async () => {
     try {
-      const response = await axios.get(`http://localhost:10000/notes?roomId=${roomId}`);
+      const response = await axios.get(`https://readyvsr.onrender.com/notes?roomId=${roomId}`);
       if (response.data) setNotes(response.data);
     } catch (error) {
       console.error("Failed to fetch notes:", error);

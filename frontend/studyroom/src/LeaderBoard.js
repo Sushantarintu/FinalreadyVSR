@@ -12,7 +12,7 @@ const LeaderBoard = () => {
 
   const handleSearch = () => {
     axios
-      .get("http://localhost:10000/getexaminerdata2") // Fetch all data
+      .get("https://readyvsr.onrender.com/getexaminerdata2") // Fetch all data
       .then((response) => {
         // console.log("Backend Data Sample:", response.data.slice(0, 5)); // Log first 5 records for debugging
 

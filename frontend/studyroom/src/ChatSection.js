@@ -27,7 +27,7 @@ const ChatSection = ({ onNewMessage ,roomid,username}) => {
 // console.log(Grps);
 
 useEffect(()=>{
-  axios.get('https://virtualstudyroom2.onrender.com/getloginers')
+  axios.get('https://readyvsr.onrender.com/getloginers')
         .then((res)=>{
           // console.log(res.data);
           setallaccounts(res.data)
@@ -72,7 +72,7 @@ useEffect(() => {
   // };
 
   useEffect(() => {
-    socket.current = socketIOClient('http://localhost:10000');
+    socket.current = socketIOClient('https://readyvsr.onrender.com');
 
     socket.current.on('connect', () => {
       console.log('Connected to backend:', socket.current.id);

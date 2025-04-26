@@ -14,7 +14,7 @@ const handlrepsubmit=()=>{
         repemail:repemail,
         repmsg:repmsg
     }
-    axios.post("http://localhost:10000/report",repdata)
+    axios.post("https://readyvsr.onrender.com/report",repdata)
     .then((res)=>{
         console.log(res)
         if(res.data.message === "Your response has been saved "){
