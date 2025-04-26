@@ -34,7 +34,7 @@ const Test = ({ goto }) => {
             duration // send this to backend
         };
 
-        axios.post("https://readyvsr.onrender.com/create-room", roomData)
+        axios.post("https://finalreadyvsr.onrender.com/create-room", roomData)
             .then((res) => {
                 if (res.data.success) {
                     alert("Room created successfully!");

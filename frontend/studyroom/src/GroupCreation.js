@@ -47,7 +47,7 @@ const GroupCreation = ({ builder }) => {
     console.log("New Group:", newGroup);  // Log to check if grmembers are populated
   
     axios
-      .post("https://readyvsr.onrender.com", newGroup)
+      .post("https://finalreadyvsr.onrender.com", newGroup)
       .then((res) => console.log(res.message))
       .catch((err) => console.log(err));
     

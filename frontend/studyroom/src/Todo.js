@@ -14,7 +14,7 @@ const Todo = () => {
     }, []);
 
     const fetchTasks = () => {
-        axios.get("https://readyvsr.onrender.com/getTasks")
+        axios.get("https://finalreadyvsr.onrender.com/getTasks")
             .then((res) => {
                 setAllTasks(res.data);
             })
@@ -25,7 +25,7 @@ const Todo = () => {
     const handleAdd = () => {
         if (task.trim() === '') return; // Avoid empty tasks
 
-        axios.post("https://readyvsr.onrender.com/tasks", { task })
+        axios.post("https://finalreadyvsr.onrender.com/tasks", { task })
             .then((res) => {
                 console.log(res.data.message);
                 setAllTasks([...allTasks, res.data.task]); // Add task to list
@@ -36,7 +36,7 @@ const Todo = () => {
 
     // Delete task from backend and update frontend
     const handleDel = (id) => {
-        axios.delete(`https://readyvsr.onrender.com/deleteTask/${id}`)
+        axios.delete(`https://finalreadyvsr.onrender.com/deleteTask/${id}`)
             .then((res) => {
                 console.log(res.data.message);
                 setAllTasks(allTasks.filter(task => task._id !== id)); // Remove from UI

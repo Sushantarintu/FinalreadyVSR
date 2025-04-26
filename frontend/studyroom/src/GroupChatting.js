@@ -20,7 +20,7 @@ const GroupChatting = () => {
   }, [users]);
 
   useEffect(() => {
-    socket.current = socketIOClient("https://readyvsr.onrender.com");
+    socket.current = socketIOClient("https://finalreadyvsr.onrender.com");
 
     // Listen for incoming messages
     socket.current.on('message', (sender, message) => {

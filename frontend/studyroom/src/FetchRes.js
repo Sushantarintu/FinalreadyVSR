@@ -16,7 +16,7 @@ const FetchRes=() =>{
     if (!topic.trim()) return;
     setLoading(true);
     try {
-      const res = await axios.get(`https://readyvsr.onrender.com/resources?q=${topic}`);
+      const res = await axios.get(`https://finalreadyvsr.onrender.com/resources?q=${topic}`);
       setResources(res.data);
     } catch (err) {
       console.error("Error fetching resources", err);

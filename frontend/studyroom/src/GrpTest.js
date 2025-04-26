@@ -23,7 +23,7 @@ const GrpTest = ({val,backval}) => {
   useEffect(() => {
     let isMounted = true;
     axios
-      .get('https://readyvsr.onrender.com/getauthdatas')
+      .get('https://finalreadyvsr.onrender.com/getauthdatas')
       .then((authdata) => {
         if (isMounted) setAuthDatas(authdata.data);
       })

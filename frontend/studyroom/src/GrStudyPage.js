@@ -21,7 +21,7 @@ import FetchRes from './FetchRes.js';
 import { StudyContext } from "./Store.js";
 import Help from './Help.js';
 
-const SOCKET_SERVER_URL = 'https://readyvsr.onrender.com';
+const SOCKET_SERVER_URL = 'https://finalreadyvsr.onrender.com';
 const ICE_SERVERS = [{ urls: 'stun:stun.l.google.com:19302' }];
 
 
@@ -125,7 +125,7 @@ const GrStudyPage = () => {
     console.log("Fetching room data for roomid2:", roomid2);
 
     axios
-      .get(`https://readyvsr.onrender.com/room/${roomid2}`)
+      .get(`https://finalreadyvsr.onrender.com/room/${roomid2}`)
       .then((res) => {
         if (res.data.success) {
           console.log("Fetched room data:", res.data);
@@ -140,7 +140,7 @@ const GrStudyPage = () => {
   }, [roomid2]);
 
 useEffect(() => {
-  socketRef2.current = io("https://readyvsr.onrender.com");
+  socketRef2.current = io("https://finalreadyvsr.onrender.com");
   
   socketRef2.current.on('joined', handleUserListUpdate2);
   socketRef2.current.on('offer', handleOffer2);
@@ -363,7 +363,7 @@ const joinConference2 = async() => {
   socketRef2.current.emit('join-user', {username:username2,roomid:roomid2,password});
     // Call the backend to start tracking the session
     try {
-      const res = await fetch("https://readyvsr.onrender.com/session/start", {
+      const res = await fetch("https://finalreadyvsr.onrender.com/session/start", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: username2,roomId:roomid2 }) // or your actual user ID logic
@@ -431,7 +431,7 @@ const endCall2 = async() => {
   const sessionId = localStorage.getItem("sessionId");
   if (sessionId) {
     try {
-      await fetch("https://readyvsr.onrender.com/session/end", {
+      await fetch("https://finalreadyvsr.onrender.com/session/end", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId,userId: username2 })
@@ -562,7 +562,7 @@ const toggleChat2 = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(`https://readyvsr.onrender.com/api/room-engagement/${roomid2}`);
+      const res = await fetch(`https://finalreadyvsr.onrender.com/api/room-engagement/${roomid2}`);
       const data = await res.json();
       setEngagementData(data.users);
       console.log("i am logging :",data);

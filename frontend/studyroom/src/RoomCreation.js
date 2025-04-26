@@ -13,7 +13,7 @@ import './grstudy.css';
 import AdminPage from './AdminPage.js'
 import LandingPage from './LandingPage.js';
 
-const SOCKET_SERVER_URL = 'https://readyvsr.onrender.com';
+const SOCKET_SERVER_URL = 'https://finalreadyvsr.onrender.com';
 const ICE_SERVERS = [{ urls: 'stun:stun.l.google.com:19302' }];
 
 
@@ -67,7 +67,7 @@ const RoomCreation = () => {
   }, [roomid]);
 
 useEffect(() => {
-  socketRef.current = io("https://readyvsr.onrender.com");
+  socketRef.current = io("https://finalreadyvsr.onrender.com");
   
   socketRef.current.on('joined', handleUserListUpdate);
   socketRef.current.on('offer', handleOffer);

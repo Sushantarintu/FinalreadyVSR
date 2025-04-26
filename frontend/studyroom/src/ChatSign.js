@@ -24,7 +24,7 @@ function ChatSign() {
       return;
     }
 
-    axios.post("https://readyvsr.onrender.com/userreg",userData)
+    axios.post("https://finalreadyvsr.onrender.com/userreg",userData)
     .then((res)=>{
       console.log(res.message);
     }).catch((err)=>{
