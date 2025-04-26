@@ -27,7 +27,8 @@ const allowedOrigins = [
   "http://localhost:3001",
   "https://virtual-study-room2-git-master-sushanta-bhattas-projects.vercel.app/",
    "https://virtual-study-room2.vercel.app",
-   "https://ready-vsr.vercel.app"
+   "https://ready-vsr.vercel.app",
+  "https://finalready-vsr.vercel.app/"
 ];
 
 // app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
