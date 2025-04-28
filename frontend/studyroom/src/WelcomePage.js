@@ -107,10 +107,8 @@ const WelcomePage = () => {
           <h1 id="ora" className="leftside">Development</h1>
           <h1 className="white leftside">Course</h1>
           <p id="me">
-            Built wicket longer do barton vanity itself do in it. Preferred to sportsmen it engrossed listening. 
-            Park gatesell they west hard for Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veritatis sit 
-            molestiae doloribus tempora, numquam consectetur error suscipit, corporis dolorem iusto molestias, sunt 
-            incidunt rem! Eum fugit similique autem qui totam?
+             Transform the way you study with our Virtual Study Room! 
+  Stay organized, stay accountable, and achieve your academic goals — all from the comfort of your own space.
           </p> {/* Corrected closing tag */}
           <button id="btn">JOIN US</button>
         </div>
