@@ -108,7 +108,7 @@ const WelcomePage = () => {
           <h1 className="white leftside">Course</h1>
           <p id="me">
              Transform the way you study with our Virtual Study Room! 
-  Stay organized, stay accountable, and achieve your academic goals — all from the comfort of your own space.
+  Stay organized, stay accountable<br/> and achieve your academic goals — all from the comfort of your own space.
           </p> {/* Corrected closing tag */}
           <button id="btn">JOIN US</button>
         </div>
