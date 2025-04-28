@@ -111,11 +111,11 @@ const validUser= curUser.find((user)=>{
                 <div id="rightdiv">
                         <div className="slider">
                             <div className="slides">
-                                <img src="https://tse4.mm.bing.net/th?id=OIP.g3ZZrsOw2c1klgwbPIlT6wHaDt&pid=Api&P=0&h=180" alt="Slide 1" loading="lazy"/>
-                                <img src="https://tse2.mm.bing.net/th?id=OIP.1x5htsbfTTkjQfMHLZ_0lgHaEO&pid=Api&P=0&h=180" alt="Slide 2" loading="lazy"/>
-                                <img src="https://tse4.mm.bing.net/th?id=OIP.NMk18qBLgBVsp-SbrtN62wHaFi&pid=Api&P=0&h=180" alt="Slide 3" loading="lazy"/>
-                                <img src="https://tse4.mm.bing.net/th?id=OIP.pRFYD74bFS7iegPwZ1mCiQHaFy&pid=Api&P=0&h=180" alt="Slide 4" loading="lazy"/>
-                                <img src="https://tse4.mm.bing.net/th?id=OIP.g3ZZrsOw2c1klgwbPIlT6wHaDt&pid=Api&P=0&h=180" alt="Slide 1 clone" loading="lazy"/>
+                                <img src="https://tse4.mm.bing.net/th?id=OIP.g3ZZrsOw2c1klgwbPIlT6wHaDt&pid=Api&P=0&h=180" alt="Slide 1" />
+                                <img src="https://tse2.mm.bing.net/th?id=OIP.1x5htsbfTTkjQfMHLZ_0lgHaEO&pid=Api&P=0&h=180" alt="Slide 2" />
+                                <img src="https://tse4.mm.bing.net/th?id=OIP.NMk18qBLgBVsp-SbrtN62wHaFi&pid=Api&P=0&h=180" alt="Slide 3" />
+                                <img src="https://tse4.mm.bing.net/th?id=OIP.pRFYD74bFS7iegPwZ1mCiQHaFy&pid=Api&P=0&h=180" alt="Slide 4" />
+                                <img src="https://tse4.mm.bing.net/th?id=OIP.g3ZZrsOw2c1klgwbPIlT6wHaDt&pid=Api&P=0&h=180" alt="Slide 1 clone"/>
                             </div>
                         </div>
                 </div>
@@ -124,9 +124,7 @@ const validUser= curUser.find((user)=>{
             <p>&copy; 2025 Your Website Name. All rights reserved.</p>
             <p>Contact us: <a href="mailto:info@yourwebsite.com">info@yourwebsite.com</a></p>
             <div className="social-icons">
-                <a href="https://facebook.com/yourpage" target="_blank">Facebook</a> |
-                <a href="https://twitter.com/yourhandle" target="_blank">Twitter</a> |
-                <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/sushantabhatta" target="_blank">LinkedIn</a>
 
                 {/* <a href='/useng'>User engagement</a> */}
             </div>
