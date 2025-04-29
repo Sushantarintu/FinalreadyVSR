@@ -617,7 +617,10 @@ const handleSend=()=>{
   //     setloading(false);
   //   }, 2000);
   // };
-
+const setIsback2=()=>{
+  endCall2()
+  setIsback(true)
+}
   
 return (
   <div className='uparebe'>
@@ -635,7 +638,7 @@ return (
 
   <div className="host-full-page">
       <div className="host-upper-row">
-        <button onClick={()=>setIsback(true)}>Back</button>
+        <button onClick={setIsback2}>Back</button>
       <h2>Welcome to Room: <a href={generatedRoomId2} className="text-blue-500">{roomid2}</a></h2>
       {/* <p style={{color:"black"}}>Room Password: {password}</p> */}
       {/* <input 
