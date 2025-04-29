@@ -370,7 +370,7 @@ return (
   {back ? (
     <LandingPage/>
   ):test?(
-    <Test goto={"roomcreation"}/>
+    <Test goto={"grstudy"}/>
   ):(
 
   <div className="host-full-page">
