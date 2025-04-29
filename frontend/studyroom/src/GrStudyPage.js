@@ -393,38 +393,38 @@ const joinConference2 = async() => {
   }, []);
 
   // Reset inactivity timer whenever there is an activity (mouse move, key press, etc.)
-  const resetInactivityTimer = useCallback(() => {
-    // Clear any existing timers
-    if (inactiveTimeout) {
-      clearTimeout(inactiveTimeout);
-    }
+  // const resetInactivityTimer = useCallback(() => {
+  //   // Clear any existing timers
+  //   if (inactiveTimeout) {
+  //     clearTimeout(inactiveTimeout);
+  //   }
 
-    // Set a new timer to disconnect after 5 minutes (300 seconds)
-    const newTimeout = setTimeout(() => {
-      handleDisconnect(); // Trigger disconnect when timeout occurs
-    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+  //   // Set a new timer to disconnect after 5 minutes (300 seconds)
+  //   const newTimeout = setTimeout(() => {
+  //     handleDisconnect(); // Trigger disconnect when timeout occurs
+  //   }, 5 * 60 * 1000); // 5 minutes in milliseconds
 
-    setInactiveTimeout(newTimeout);
-  }, [handleDisconnect]);  // Only depend on handleDisconnect
+  //   setInactiveTimeout(newTimeout);
+  // }, [handleDisconnect]);  // Only depend on handleDisconnect
 
-  // Set up event listeners for user activity
-  useEffect(() => {
-    // Listen for mouse moves, key presses, or focus changes to reset the inactivity timer
-    const events = ["mousemove", "keydown", "focus"];
-    events.forEach(event => window.addEventListener(event, resetInactivityTimer));
+  // // Set up event listeners for user activity
+  // useEffect(() => {
+  //   // Listen for mouse moves, key presses, or focus changes to reset the inactivity timer
+  //   const events = ["mousemove", "keydown", "focus"];
+  //   events.forEach(event => window.addEventListener(event, resetInactivityTimer));
 
-    // Start the timer when the component mounts
-    resetInactivityTimer();
+  //   // Start the timer when the component mounts
+  //   resetInactivityTimer();
 
-    // Cleanup event listeners on component unmount
-    return () => {
-      events.forEach(event => window.removeEventListener(event, resetInactivityTimer));
-      // Clear any existing timer on cleanup
-      if (inactiveTimeout) {
-        clearTimeout(inactiveTimeout);
-      }
-    };
-  }, [resetInactivityTimer]);  // Only depend on resetInactivityTimer
+  //   // Cleanup event listeners on component unmount
+  //   return () => {
+  //     events.forEach(event => window.removeEventListener(event, resetInactivityTimer));
+  //     // Clear any existing timer on cleanup
+  //     if (inactiveTimeout) {
+  //       clearTimeout(inactiveTimeout);
+  //     }
+  //   };
+  // }, [resetInactivityTimer]);  // Only depend on resetInactivityTimer
   
 const endCall2 = async() => {
   // End session tracking
