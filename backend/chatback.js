@@ -337,86 +337,7 @@ app.get('/api/user/:userId/engagement-graph', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-// app.get("/getUserEngagement/:userId", async (req, res) => {
-//   const { userId } = req.params;
-//   const { from, to } = req.query;
 
-//   try {
-//     const query = { userId };
-
-//     // Add date range filter if provided
-//     if (from && to) {
-//       query.timestamp = {
-//         $gte: new Date(from),
-//         $lte: new Date(to)
-//       };
-//     }
-
-//     const events = await Engagement.find(query)
-
-//     if (events.length === 0) {
-//       return res.status(404).json({ message: "No engagement data found for this user in the given range." });
-//     }
-
-//     // Helper function to format time
-//     const formatDuration = (ms) => {
-//       const totalSeconds = Math.floor(ms / 1000);
-//       const hours = Math.floor(totalSeconds / 3600);
-//       const minutes = Math.floor((totalSeconds % 3600) / 60);
-//       const seconds = totalSeconds % 60;
-//       return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-//     };
-
-//     // Group events by roomId
-//     const roomGroups = {};
-//     for (const event of events) {
-//       const room = event.roomId;
-//       if (!roomGroups[room]) roomGroups[room] = [];
-//       roomGroups[room].push(event);
-//     }
-
-//     let grandTotalMs = 0;
-//     const engagement = [];
-
-//     for (const roomId in roomGroups) {
-//       const logs = roomGroups[roomId].sort(
-//         (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
-//       );
-
-//       let startTime = null;
-//       let roomTotalMs = 0;
-
-//       for (const log of logs) {
-//         if (log.eventType === "start") {
-//           startTime = new Date(log.timestamp);
-//         } else if (log.eventType === "leave" && startTime) {
-//           const endTime = new Date(log.timestamp);
-//           roomTotalMs += endTime - startTime;
-//           startTime = null;
-//         }
-//       }
-
-//       grandTotalMs += roomTotalMs;
-
-//       engagement.push({
-//         roomId,
-//         totalMinutes: Math.floor(roomTotalMs / 60000),
-//         duration: formatDuration(roomTotalMs),
-//       });
-//     }
-
-//     res.json({
-//       userId,
-//       engagement,
-//       grandTotalMinutes: Math.floor(grandTotalMs / 60000),
-//       grandTotalFormatted: formatDuration(grandTotalMs),
-//     });
-
-//   } catch (err) {
-//     console.error("❌ Error fetching engagement:", err);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
 app.get("/getUserEngagement/:userId", async (req, res) => {
   const { userId } = req.params;
   const { from, to } = req.query;
@@ -607,7 +528,7 @@ app.post('/upload-file', fileUpload.single('file'), async (req, res) => {
     res.json({
       status: "ok",
       fileName: req.file.originalname,
-      fileUrl: `http://localhost:10000/${filePath}`, // Permanent URL
+      fileUrl: `https://finalreadyvsr.onrender.com/${filePath}`, // Permanent URL
     });
   } catch (err) {
     console.error(err);
