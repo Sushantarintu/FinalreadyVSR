@@ -169,7 +169,7 @@ const renderContent = () => {
             {images.map((image, index) => (
               <img
                 key={index}
-                src={`https://virtualstudyroom2.onrender.com/${image.imagePath}`}
+                src={`https://finalreadyvsr.onrender.com/${image.imagePath}`}
                 alt={`Uploaded ${index}`}
               />
             ))}
@@ -209,7 +209,7 @@ const renderContent = () => {
               className="profile-avatar"
               src={
                 validUser && validUser.imagePath
-                  ? `https://virtualstudyroom2.onrender.com/${validUser.imagePath}`
+                  ? `https://finalreadyvsr.onrender.com/${validUser.imagePath}`
                   : imagePreview || logo
               }
               onClick={() => setIsavatar(true)}
