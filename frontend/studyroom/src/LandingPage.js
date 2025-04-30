@@ -88,7 +88,7 @@ const validUser= curUser.find((user)=>{
                 </div>
                 {/* <img src='https://cdn3.iconfinder.com/data/icons/social-messaging-productivity-6/128/profile-male-circle2-512.png' onClick={()=>setProfile(true)} */}
                 {/* <img src={ldata.imagePath||defimg} style={{width:"30px"}} onClick={()=>setProfile(true)}/>              */}
-                <Avatar src={validUser && validUser.imagePath ? `https://virtualstudyroom2.onrender.com/${validUser.imagePath}` : defimg}  onClick={() => setProfile(true)} alt="User Avatar"style={{cursor:"pointer"}}/>
+                <Avatar src={validUser && validUser.imagePath ? `https://finalreadyvsr.onrender.com/${validUser.imagePath}` : defimg}  onClick={() => setProfile(true)} alt="User Avatar"style={{cursor:"pointer"}}/>
 
         </div>
              <div className="contain">
