@@ -17,7 +17,7 @@ const GrpTest = ({val,backval}) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // State to track authentication
   const [isRoom,setIsRoom]= useState(false)
   const [back,setIsBack]= useState(false)
-
+  const [yesauthenticated,setYesAuthenticated2]= useState(false)
 
 
   useEffect(() => {
@@ -64,28 +64,28 @@ const GrpTest = ({val,backval}) => {
     }
   };
 
+  const setIsAdmin2=()=>{
+    console.log("hello am i visible");
+    
+    axios
+    .get('https://finalreadyvsr.onrender.com/getauthdatas')
+    .then((res) => {
+        const data = res.data;
+        console.log("i am coming",data);
+        const validauth2 = data.find((authUser) => authUser.email === ldata.email);
+          if(validauth2){
+            alert("You are already authenticated so give ur authid and authpassword..")
+          }
+          else{
+            setIsAdmin(true)
+          }     
+    })
+    .catch((err) => {
+      console.log("Error fetching auth data:", err.message);
+    });
+  }
 
-  // return (
-  //   <>
-  //     {back ? (
-  //     <LandingPage/>
-  //     ):isAdmin ? (
-  //       <AdminPage grpval={val}/>
-  //     ) :isRoom ? (
-  //       <GrStudyPage />
-  //     ) : isAuthenticated ? (
-  //       <QuizQueSection />
-  //     ) : (
-  //       <>
-  //         <input type="text" placeholder="Give Authentication ID" onChange={(e) => setGivenId(e.target.value)} />
-  //         <input type="text" placeholder="Authenticated Password" onChange={(e) => setGivenPass(e.target.value)} />
-  //         <button onClick={handleVerify}>Verify</button>
-  //         <button onClick={() => setIsAdmin(true)}>Get Authenticated</button>
-  //         <button onClick={()=>setIsBack(true)}>Back</button>
-  //       </>
-  //     )}
-  //   </>
-  // );
+  
   return (
     <>
       {back ? (
@@ -115,7 +115,7 @@ const GrpTest = ({val,backval}) => {
           />
           <div className='movealign'>
           <button className="vsr-button" onClick={handleVerify}>Verify</button>
-          <button className="vsr-button" onClick={() => setIsAdmin(true)}>Get Authenticated</button>
+          <button className="vsr-button" onClick={() => setIsAdmin2(true)}>Get Authenticated</button>
           </div>
           <button className="vsr-button" onClick={() => setIsBack(true)}>Back</button>
         
