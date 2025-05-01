@@ -14,61 +14,69 @@ const AdminPage = ({grpval}) => {
     const [yesAuthenticated,setYesAuthenticated]= useState(false)
     const [isRoom,setIsRoom]= useState(false)
 
-    useEffect(() => {
-        if (ldata.name) {
-            const uniqueId = ldata.name.slice(0, 3).toUpperCase() + '-' + uuidv4().slice(0, 8);
-            setAuthid(uniqueId);
-        }
-    }, [ldata.name]); // Generate when ldata.name changes
-
-    console.log("admin sent value : ",grpval);
-    
-    useEffect(() => {
-        let isMounted = true;
-        axios
-          .get('https://finalreadyvsr.onrender.com/getauthdatas')
-          .then((authdata) => {
-            if (isMounted) setauthDatas(authdata.data);
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
-    
-          const validauth = authdatas.find(
-            (authUser) =>  authUser.email === ldata.email
-          );
-      
-          if (validauth) {
-            setYesAuthenticated(true); // Set authentication state to true
-          } 
-        return () => {
-          isMounted = false;
-        };
-      }, []);
-
-    const handleauthchange = () => {
-        const authUsers = {
-            name: ldata.name,
-            email: ldata.email,
-            password: authPass,
-            authid: authid
-        };
-
-        axios.post("https://finalreadyvsr.onrender.com/authenticatedusers", authUsers)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-
-    
-    switch(grpval){
-      case "que": setIsQue(true);break;
-
-      case "roomcr": setIsRoom(true);break;
+      // Generate unique Auth ID
+  useEffect(() => {
+    if (ldata.name) {
+      const uniqueId = ldata.name.slice(0, 3).toUpperCase() + '-' + uuidv4().slice(0, 8);
+      setAuthid(uniqueId);
     }
+  }, [ldata.name]);
+
+  // Fetch Auth Data and check if user is already authenticated
+  useEffect(() => {
+    let isMounted = true;
+
+    axios
+      .get('https://finalreadyvsr.onrender.com/getauthdatas')
+      .then((res) => {
+        if (isMounted) {
+          const data = res.data;
+          setauthDatas(data);
+          const validauth = data.find((authUser) => authUser.email === ldata.email);
+          if (validauth) setYesAuthenticated(true);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching auth data:", err.message);
+      });
+
+    return () => {
+      isMounted = false;
     };
+  }, [ldata.email]);
+
+
+  // Submit Auth Data
+  const handleauthchange = () => {
+    if (!authPass.trim()) {
+      alert("Please enter a password.");
+      return;
+    }
+
+    const authUsers = {
+      name: ldata.name,
+      email: ldata.email,
+      password: authPass,
+      authid: authid,
+    };
+
+    axios
+      .post("https://finalreadyvsr.onrender.com/authenticatedusers", authUsers)
+      .then((res) => {
+        console.log("Authentication successful:", res.data);
+        // setYesAuthenticated(true);
+      })
+      .catch((err) => {
+        console.log("Error during authentication:", err.message);
+      });
+
+      switch(grpval){
+          case "que": setIsQue(true);break;
+    
+          case "roomcr": setIsRoom(true);break;
+        }
+        
+  };
 
     return (
         <>
@@ -77,14 +85,16 @@ const AdminPage = ({grpval}) => {
         ):isRoom?(
           <RoomCreation />
       ):yesAuthenticated?(
-            <h1 style={{color:"yellow"}}>You are already authenticated</h1>
+            <>
+            <h1 style={{color:"orange"}}>You are already authenticated</h1>
+            </>            
         ):(
             <>
             <h1>Admin Page</h1>
             <input type='text' value={ldata.name} readOnly />
             <input type='text' value={ldata.email} readOnly />
             <p>Create Your Authenticated Password</p>
-            <input type='text' onChange={(e) => setAuthPass(e.target.value)} />
+            <input type='text' onChange={(e) => setAuthPass(e.target.value)} placeholder=''/>
             <p>Your Authentication ID</p>
             <input type='text' value={authid} readOnly />
             <button onClick={handleauthchange}>Submit</button>
