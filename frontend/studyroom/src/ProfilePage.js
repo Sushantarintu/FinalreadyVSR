@@ -23,12 +23,25 @@ const ProfilePage = () => {
   const [selectedOption, setSelectedOption] = useState("default"); // State for selected nav option
   const users = useContext(StudyContext);
 
+  // Load saved user on mount
+useEffect(() => {
+  const savedUser = localStorage.getItem("loggedInUser");
+  if (savedUser) {
+    const parsedUser = JSON.parse(savedUser);
+    setCurUser(parsedUser);
+    users.updateData(parsedUser);  // Optional: only if context needed
+  }
+}, []);
+
    useEffect(() => {
           if (users && users.ldata) {
               console.log("Updated curUserData:", users.ldata);
               setCurUser(users.ldata);
               setsignedUsers(users.userData)
               // setAllloginers(users.allLoginers)
+
+               // Store to localStorage
+    localStorage.setItem("loggedInUser", JSON.stringify(users.ldata));
           }
       }, [users.ldata]);
       
@@ -68,7 +81,7 @@ const handleChooseLogin = (index) => {
       // axios.post('http://localhost:3009/loginers', matchedUser);
       setIslandAllowed(true);
       users.updateData(matchedUser); 
-
+      localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
     } else {
       alert('No Such User Exists');
     }
@@ -88,7 +101,15 @@ const handleUpload = () => {
     .then(data => {
       if (data.status === "ok") {
         setCurUser(data.updatedUser);
+        localStorage.setItem("loggedInUser", JSON.stringify(data.updatedUser));
         alert('Image uploaded and user updated successfully!');
+
+           // ⬇️ Fetch updated allAccounts from server again
+           axios.get('https://finalreadyvsr.onrender.com/getloginers')
+           .then((res) => {
+             setAllAccounts(res.data);  // <-- This will trigger validUser to recompute
+           });
+
       } else {
         alert('Failed to update user image');
       }
@@ -128,7 +149,11 @@ const renderContent = () => {
         </div>
       );
     case "logout":
-      return <h2>You have been logged out.</h2>;
+      return <>
+      localStorage.removeItem("loggedInUser");
+
+      <h2>You have been logged out.</h2>
+      </>;
     case "switch":
       return (
         <>
@@ -250,10 +275,6 @@ const renderContent = () => {
       )}
     </>
   );
-  
- 
-  
-  
 };
 
 export default ProfilePage;
