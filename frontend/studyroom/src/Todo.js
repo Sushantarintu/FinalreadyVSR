@@ -1,31 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import axios from 'axios';
 import './todo.css'
 import LandingPage from './LandingPage';
+import { StudyContext } from "./Store.js";
 
 const Todo = () => {
     const [task, setTask] = useState('');
     const [allTasks, setAllTasks] = useState([]);
     const [back,setIsBack]= useState(false);
+      const users = useContext(StudyContext);
+    const [curtaskfetcher,setCurTaskFetcher]= useState('')
 
     // Fetch tasks from backend on component mount
     useEffect(() => {
-        fetchTasks();
-    }, []);
-
-    const fetchTasks = () => {
-        axios.get("https://finalreadyvsr.onrender.com/getTasks")
-            .then((res) => {
-                setAllTasks(res.data);
-            })
-            .catch((err) => console.log(err));
-    };
+        if (curtaskfetcher) {
+            fetchTasks();
+        }
+    }, [curtaskfetcher]);
+    // useEffect(() => {
+    //         fetchTasks();       
+    // }, []);
+    
+    useEffect(() => {
+              if (users && users.ldata) {
+                console.log("this is CurTaskFetcher",users.ldata.email)
+                setCurTaskFetcher(users.ldata.email)
+              }
+          }, [users.ldata]);
+          const fetchTasks = () => {
+            axios.get("https://finalreadyvsr.onrender.com/getTasks")
+                .then((res) => {
+                    const validData = res.data.filter((task) => task.temail === curtaskfetcher);
+                    setAllTasks(validData);
+                })
+                .catch((err) => console.log(err));
+        };
 
     // Add task to backend
     const handleAdd = () => {
         if (task.trim() === '') return; // Avoid empty tasks
 
-        axios.post("https://finalreadyvsr.onrender.com/tasks", { task })
+        axios.post("https://finalreadyvsr.onrender.com/tasks", { task,temail:curtaskfetcher })
             .then((res) => {
                 console.log(res.data.message);
                 setAllTasks([...allTasks, res.data.task]); // Add task to list
@@ -44,6 +59,8 @@ const Todo = () => {
             .catch((err) => console.log(err));
     };
 
+    console.log("alltasks are",allTasks);
+    
     return (
         <>
         {back ? (
