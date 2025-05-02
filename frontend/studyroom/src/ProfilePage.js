@@ -235,7 +235,10 @@ const renderContent = () => {
               src={
                 validUser && validUser.imagePath
                   ? `https://finalreadyvsr.onrender.com/${validUser.imagePath}`
-                  : imagePreview || logo
+                  // : imagePreview || logo
+                : curuser.imagePath
+                  ? `https://finalreadyvsr.onrender.com/${curuser.imagePath}`
+                  : logo
               }
               onClick={() => setIsavatar(true)}
               style={{width:"70px",height:'70px',marginRight:"20px"}}
