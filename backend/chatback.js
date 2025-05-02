@@ -671,6 +671,7 @@ app.get('/getexaminerdata2',(req,res)=>{
 
 const taskSchema = new mongoose.Schema({
   name: String,
+   temail:String
 });
 
 const Task = mongoose.model('Task', taskSchema);
@@ -690,8 +691,10 @@ app.get('/getTasks', async (req, res) => {
 // Add a task
 app.post('/tasks', async (req, res) => {
   try {
-      const { task } = req.body;
-      const newTask = new Task({ name: task });
+      const { task,temail } = req.body;
+      // console.log("the tasks email is",temail);
+      
+      const newTask = new Task({ name: task ,temail:temail});
       await newTask.save();
       res.status(201).json({ message: 'Task added successfully', task: newTask });
   } catch (err) {
