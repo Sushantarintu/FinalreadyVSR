@@ -78,7 +78,7 @@ const validUser= curUser.find((user)=>{
                 <h1>Virtual Study Room</h1>
             </div>
                 <ul className="headerelement">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/serv">Services</a></li>
                     <li><a href="/cont">Contact</a></li>
