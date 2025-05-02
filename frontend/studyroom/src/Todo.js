@@ -59,7 +59,7 @@ const Todo = () => {
             .catch((err) => console.log(err));
     };
 
-    console.log("alltasks are",allTasks);
+    // console.log("alltasks are",allTasks);
     
     return (
         <>
