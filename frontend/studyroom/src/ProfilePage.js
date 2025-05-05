@@ -6,6 +6,7 @@ import {Avatar} from "@mui/material"
 import './profile2.css'
 import boyimg from './profilepage-boy-img.jpg'
 import axios from 'axios';
+import UserEngagement from './UserEngagement.js';
 
 const ProfilePage = () => {
   const [account, setAccount] = useState(false);
@@ -131,9 +132,25 @@ const renderContent = () => {
   switch (selectedOption) {
     case "account":
       return (
-        <div >
-          Account Details
-        <div className="profile-info">
+        <div style={{display:"flex",alignItems:"center",flexDirection:"column",fontSize:"30px",color:"orange"}}>
+        
+        <div className="profile-info"  style={{textAlign:"center",margin:"10px"}}>
+        <span style={{marginBottom:"20px"}}>Account Details</span>
+        <Avatar
+              className="profile-avatar"
+             
+              src={
+                validUser && validUser.imagePath
+                  ? `https://finalreadyvsr.onrender.com/${validUser.imagePath}`
+                  // : imagePreview || logo
+                  : curuser.imagePath
+                  ? `https://finalreadyvsr.onrender.com/${curuser.imagePath}`
+                  : logo
+              }
+              onClick={() => setIsavatar(true)}
+              style={{width:"70px",height:'70px', margin: "0 auto", 
+                marginBottom: "10px" }}
+            />
           <h2>{curuser.name}</h2>
           <h2>{curuser.email}</h2>
           <button className="button">Add Account</button>
@@ -143,17 +160,22 @@ const renderContent = () => {
     case "contact":
       return (
         <div>
-          <h2>Contact Information</h2>
-          <p>Email: {curuser.email}</p>
-          <p>Support: support@example.com</p>
+          {/* <h2>Contact Information</h2>
+          <p style={{color:"black"}}>Email: {curuser.email}</p>
+          <p>Support: support@example.com</p> */}
+
+          <UserEngagement />
         </div>
       );
     case "logout":
-      return <>
-      localStorage.removeItem("loggedInUser");
-
-      <h2>You have been logged out.</h2>
-      </>;
+      alert("Your registered email and password will be deleted..")
+      try {
+        axios.post("http://localhost:10000/logout-user",{email:curuser.email})
+      } catch (err) {
+        console.error('Logout failed:', err);
+      }
+      window.location.reload();
+      break;
     case "switch":
       return (
         <>
@@ -236,7 +258,7 @@ const renderContent = () => {
                 validUser && validUser.imagePath
                   ? `https://finalreadyvsr.onrender.com/${validUser.imagePath}`
                   // : imagePreview || logo
-                : curuser.imagePath
+                  : curuser.imagePath
                   ? `https://finalreadyvsr.onrender.com/${curuser.imagePath}`
                   : logo
               }
@@ -256,7 +278,7 @@ const renderContent = () => {
           <div className="lower-content-div">
             <div className="nav-options">
               <h2 onClick={() => setSelectedOption("account")} className='badhabe'>Account</h2>
-              <h2 onClick={() => setSelectedOption("contact")}>Contact</h2>
+              <h2 onClick={() => setSelectedOption("contact")}>Room Engagement Details</h2>
               <h2 onClick={() => setSelectedOption("logout")}>Logout</h2>
               <h2 onClick={() => setSelectedOption("switch")}>
                 Switch Account
