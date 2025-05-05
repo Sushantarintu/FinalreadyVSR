@@ -170,7 +170,7 @@ const renderContent = () => {
     case "logout":
       alert("Your registered email and password will be deleted..")
       try {
-        axios.post("http://localhost:10000/logout-user",{email:curuser.email})
+        axios.post("https://finalreadyvsr.onrender.com/logout-user",{email:curuser.email})
       } catch (err) {
         console.error('Logout failed:', err);
       }
