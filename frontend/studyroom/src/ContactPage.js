@@ -55,8 +55,8 @@ const handlrepsubmit=()=>{
         <div className="contact-info">
           <h2>Get in Touch</h2>
           <p className='kalakare'><strong>Email:</strong> support@virtualstudyroom.com</p>
-          <p className='kalakare'><strong>Phone:</strong> +123 456 7890</p>
-          <p className='kalakare'><strong>Address:</strong> Kathmandu, Nepal</p>
+          <p className='kalakare'><strong>Phone:</strong> +707 779 6501</p>
+          <p className='kalakare'><strong>Address:</strong> Cuttack, Odisha</p>
           <p className='kalakare'>Feel free to reach out to us anytime. We typically respond within 24 hours.</p>
         </div>
       </section>
