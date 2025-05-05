@@ -787,7 +787,7 @@ app.get('/getUserData',(req,res)=>{
   UserData.find().then((userdata)=>{
     res.json(userdata)
     // console.log(userdata);
-    console.log('User data retrived from db');
+    // console.log('User data retrived from db');
   }).catch((err)=>{
     console.log(err);
   })
@@ -808,7 +808,7 @@ app.get('/getGrData',(req,res)=>{
   Group.find().then((grData)=>{
     res.json(grData)
     // console.log(grData);
-    console.log('GROUP data retrived from db');
+    // console.log('GROUP data retrived from db');
   }).catch((err)=>{
     console.log(err);
   })
@@ -816,7 +816,7 @@ app.get('/getGrData',(req,res)=>{
 
 app.post('/logout-user', async (req, res) => {
   const { email } = req.body;
-// console.log("this is the email",email);
+console.log("this is the email",email);
 
   try {
     await UserData.deleteOne({ email });  // or any method to remove user
