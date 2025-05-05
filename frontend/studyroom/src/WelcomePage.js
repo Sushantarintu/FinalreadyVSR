@@ -58,7 +58,7 @@ const WelcomePage = () => {
       <div className="main">
         <div className="sec1">
           <nav className="navdiv">
-            <div className="praroz leftside">LOGO</div>
+            <div className="praroz leftside">VSR</div>
             <ul>
             <li><a href="#" style={{fontSize:"20px"}}>Home</a></li>
             <li><a href="/about" style={{fontSize:"20px"}}>About</a></li>
