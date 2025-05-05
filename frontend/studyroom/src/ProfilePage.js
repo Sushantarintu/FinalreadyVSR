@@ -127,8 +127,17 @@ const handleFileChange = (e) => {
   }
 };
 
+const logoutUser = async () => {
+  alert("Your registered email and password will be deleted..");
+  try {
+    await axios.post("https://finalreadyvsr.onrender.com/logout-user", { email: curuser.email });
+    window.location.reload();
+  } catch (err) {
+    console.error("Logout failed:", err);
+  }
+};
 
-const renderContent = async() => {
+const renderContent = async () => {
   switch (selectedOption) {
     case "account":
       return (
@@ -168,13 +177,8 @@ const renderContent = async() => {
         </div>
       );
     case "logout":
-      alert("Your registered email and password will be deleted..")
-      try {
-       await axios.post("https://finalreadyvsr.onrender.com/logout-user",{email:curuser.email})
-      } catch (err) {
-        console.error('Logout failed:', err);
-      }
-      window.location.reload();
+      logoutUser()
+      return <p>Logging out...</p>;
       break;
     case "switch":
       return (
