@@ -128,7 +128,7 @@ const handleFileChange = (e) => {
 };
 
 
-const renderContent = () => {
+const renderContent = async() => {
   switch (selectedOption) {
     case "account":
       return (
@@ -170,7 +170,7 @@ const renderContent = () => {
     case "logout":
       alert("Your registered email and password will be deleted..")
       try {
-        axios.post("https://finalreadyvsr.onrender.com/logout-user",{email:curuser.email})
+       await axios.post("https://finalreadyvsr.onrender.com/logout-user",{email:curuser.email})
       } catch (err) {
         console.error('Logout failed:', err);
       }
