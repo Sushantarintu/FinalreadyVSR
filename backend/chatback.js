@@ -814,6 +814,18 @@ app.get('/getGrData',(req,res)=>{
   })
 })
 
+app.post('/logout-user', async (req, res) => {
+  const { email } = req.body;
+// console.log("this is the email",email);
+
+  try {
+    await UserData.deleteOne({ email });  // or any method to remove user
+    res.json({ status: 'ok', message: 'User deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: 'Failed to delete user' });
+  }
+});
+
 app.use(express.static("public"));
 
   const connectedUsers = {};
