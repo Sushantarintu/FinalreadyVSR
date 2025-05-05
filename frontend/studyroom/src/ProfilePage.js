@@ -137,7 +137,7 @@ const logoutUser = async () => {
   }
 };
 
-const renderContent = async () => {
+const renderContent =  () => {
   switch (selectedOption) {
     case "account":
       return (
