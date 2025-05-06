@@ -822,8 +822,10 @@ console.log("this is the email",email);
   try {
     await UserData.deleteOne({ email });  // or any method to remove user
     res.json({ status: 'ok', message: 'User deleted successfully' });
+    console.log("User deleted successfully")
   } catch (error) {
     res.status(500).json({ status: 'error', message: 'Failed to delete user' });
+    console.log("Failed to delete user")
   }
 });
 
