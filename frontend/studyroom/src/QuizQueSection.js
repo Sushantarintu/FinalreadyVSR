@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import './quizque.css';
+import LandingPage from './LandingPage.js'
 
 const QuizQueSection = () => {
   const [subname, setSubName] = useState('');
@@ -11,6 +12,7 @@ const QuizQueSection = () => {
   const [options, setOptions] = useState(['', '', '', '']);
   const [examDuration, setExamDuration] = useState(5);
   const [queSettingId, setQueSettingId] = useState(''); // User can enter or generate
+  const [isback,setIsBack]= useState(false)
 
   const handleOptionChange = (index, value) => {
     const newOptions = [...options];
@@ -57,7 +59,11 @@ const QuizQueSection = () => {
   };
 
   return (
-    <div className="quizque-container">
+    <>
+     {isback ?(
+      <LandingPage />
+    ):(
+      <div className="quizque-container">
        {/* Question Setting ID */}
       <div className="id-container">
         <input
@@ -117,11 +123,13 @@ const QuizQueSection = () => {
       
 
       <div className="button-group">
-        <button className="quiz-btn" onClick={handleSave}>Save</button>
-        <button className="quiz-btn">Previous</button>
-        <button className="quiz-btn">Set More</button>
+      <button className="quiz-btn" onClick={()=>setIsBack(true)}>Previous</button>
+        <button className="quiz-btn" onClick={handleSave}>Save</button>       
+        {/* <button className="quiz-btn">Set More</button> */}
       </div>
     </div>
+    )}
+    </>
   );
 };
 
