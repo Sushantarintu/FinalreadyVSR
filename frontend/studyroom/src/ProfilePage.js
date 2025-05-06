@@ -25,14 +25,14 @@ const ProfilePage = () => {
   const users = useContext(StudyContext);
 
   // Load saved user on mount
-useEffect(() => {
-  const savedUser = localStorage.getItem("loggedInUser");
-  if (savedUser) {
-    const parsedUser = JSON.parse(savedUser);
-    setCurUser(parsedUser);
-    users.updateData(parsedUser);  // Optional: only if context needed
-  }
-}, []);
+// useEffect(() => {
+//   const savedUser = localStorage.getItem("loggedInUser");
+//   if (savedUser) {
+//     const parsedUser = JSON.parse(savedUser);
+//     setCurUser(parsedUser);
+//     users.updateData(parsedUser);  // Optional: only if context needed
+//   }
+// }, []);
 
    useEffect(() => {
           if (users && users.ldata) {
@@ -42,7 +42,7 @@ useEffect(() => {
               // setAllloginers(users.allLoginers)
 
                // Store to localStorage
-    localStorage.setItem("loggedInUser", JSON.stringify(users.ldata));
+    // localStorage.setItem("loggedInUser", JSON.stringify(users.ldata));
           }
       }, [users.ldata]);
       
