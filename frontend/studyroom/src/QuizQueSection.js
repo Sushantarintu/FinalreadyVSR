@@ -123,7 +123,7 @@ const QuizQueSection = () => {
       
 
       <div className="button-group">
-      <button className="quiz-btn" onClick={()=>setIsBack(true)}>Previous</button>
+      <button className="quiz-btn" onClick={()=>setIsBack(true)}>Back</button>
         <button className="quiz-btn" onClick={handleSave}>Save</button>       
         {/* <button className="quiz-btn">Set More</button> */}
       </div>
