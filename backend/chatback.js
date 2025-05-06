@@ -816,7 +816,7 @@ app.get('/getGrData',(req,res)=>{
 
 app.post('/logout-user', async (req, res) => {
   const { email } = req.body;
-   res.send("hello client")
+   
 console.log("this is the email",email);
 
   try {
