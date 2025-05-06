@@ -287,9 +287,9 @@ const renderContent =  () => {
               <h2 onClick={() => setSelectedOption("switch")}>
                 Switch Account
               </h2>
-              <h2 onClick={() => setSelectedOption("notifications")}>
-                Notifications
-              </h2>
+              // <h2 onClick={() => setSelectedOption("notifications")}>
+              //   Notifications
+              // </h2>
              
             </div>
 
