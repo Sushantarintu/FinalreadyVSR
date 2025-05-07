@@ -103,14 +103,14 @@ const WelcomePage = () => {
               <a href="#" id="a4"><img className="image" src="https://logos-world.net/wp-content/uploads/2020/09/Google-Symbol.png" height="30px" width="40px" /></a>
             </div>  */}
           </div>
-          <h1 className="white leftside">Web Design &</h1>
-          <h1 id="ora" className="leftside">Development</h1>
-          <h1 className="white leftside">Course</h1>
+          <h1 className="white leftside">Welcome to</h1>
+          <h1 id="ora" className="leftside">Virtual Study</h1>
+          <h1 className="white leftside">Room</h1>
           <p id="me">
              Transform the way you study with our Virtual Study Room! 
   Stay organized, stay accountable<br/> and achieve your academic goals — all from the comfort of your own space.
           </p> {/* Corrected closing tag */}
-          <button id="btn">JOIN US</button>
+          <button id="btn">Thanks For Visiting</button>
         </div>
       </div>
       </div>
