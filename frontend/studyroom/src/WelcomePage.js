@@ -59,6 +59,7 @@ const WelcomePage = () => {
         <div className="sec1">
           <nav className="navdiv">
             <div className="praroz leftside">VSR</div>
+            {/* <img src="https://sdmntprwestus.oaiusercontent.com/files/00000000-ce18-6230-8dca-0d917862aaa3/raw?se=2025-05-05T04%3A21%3A25Z&sp=r&sv=2024-08-04&sr=b&scid=607d6cbb-067d-58b7-8ee0-afd506ab6d0a&skoid=51916beb-8d6a-49b8-8b29-ca48ed86557e&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-04T18%3A37%3A41Z&ske=2025-05-05T18%3A37%3A41Z&sks=b&skv=2024-08-04&sig=nRei1Kxv076MgcvzH7vq4Z12cDu6/qof%2BYO8A1PVLT0%3D" alt="Site Logo" className="praroz leftside" style={{width:"50px"}}/> */}
             <ul>
             <li><a href="#" style={{fontSize:"20px"}}>Home</a></li>
             <li><a href="/about" style={{fontSize:"20px"}}>About</a></li>
@@ -105,12 +106,12 @@ const WelcomePage = () => {
           </div>
           <h1 className="white leftside">Welcome to</h1>
           <h1 id="ora" className="leftside">Virtual Study</h1>
-          <h1 className="white leftside">Room</h1>
+          <h1 id="space" className="white leftside">Room</h1>
           <p id="me">
-             Transform the way you study with our Virtual Study Room! 
-  Stay organized, stay accountable<br/> and achieve your academic goals — all from the comfort of your own space.
+          Transform the way you study with our Virtual Study Room! 
+          Stay organized, stay accountable, and achieve your academic goals — all from the comfort of your own space.
           </p> {/* Corrected closing tag */}
-          <button id="btn">Thanks For Visiting</button>
+          <div id="btn">Thanks for visiting</div>
         </div>
       </div>
       </div>
