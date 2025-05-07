@@ -14,6 +14,9 @@ background-size: cover;
 #dd{
     margin-right: 40px;
 }
+#space{
+    margin-bottom: 10px;
+}
 #sec3{
     background-size: contain;
     border-radius: 20px;
@@ -153,12 +156,14 @@ margin-top: 10px;
 .leftside{
     margin-left: 40px;
     font-size: 40px;
+    
 }
 #me{
     margin-left: 40px;
 }
 #btn{
-    padding: 20px;
+    padding: 5px;
+    text-align: center;
     margin-left: 40px;
     margin-top: 40px;
     width: 12%;
@@ -166,6 +171,7 @@ margin-top: 10px;
     background-color: orange;
     border-radius: 4px;
     color: white;
+    font-size: 18px;
 }
 
 
