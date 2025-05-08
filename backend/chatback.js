@@ -390,7 +390,7 @@ app.get("/getUserEngagement/:userId", async (req, res) => {
       for (const log of logs) {
         if (log.eventType === "start") {
           startTime = new Date(log.timestamp);
-        } else if (log.eventType === "leave" && startTime) {
+        } else if (log.eventType === "end" && startTime) {
           const endTime = new Date(log.timestamp);
           roomTotalMs += endTime - startTime;
           startTime = null;
