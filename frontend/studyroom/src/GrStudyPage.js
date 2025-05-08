@@ -194,7 +194,7 @@ const handleChange = (e) => {
   const usernames = Object.values(allUsers2).map(user => user.username);
 
   const value = e.target.value;
-  setUsername2(value);
+  setUsername2(value.trim().toLowerCase());
 
   // Check for uniqueness (case-insensitive)
   const isTaken = usernames.some(
