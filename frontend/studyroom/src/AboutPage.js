@@ -17,8 +17,8 @@ const AboutPage = () => {
         <h2>Our Mission</h2>
         <p>
           The Virtual Study Room is designed to create a distraction-free digital space for students and learners.
-          Whether you're studying solo or in a group, our platform supports your goals by enabling speech-to-text
-          note taking, real-time collaboration, and powerful engagement analytics for admins.
+          Whether you're studying solo or in a group, our platform supports your goals by enabling real-time
+          collaboration and powerful engagement analytics for admins.
         </p>
       </section>
 
@@ -33,9 +33,10 @@ const AboutPage = () => {
             </p>
           </div>
           <div className="card">
-            <h3>Speech-to-Text Integration</h3>
+            <h3>Group Test Feature</h3>
             <p>
-              Capture your thoughts effortlessly—our speech-to-text helps you focus on ideas, not typing.
+              Admins can create custom questions for group tests, allowing students to participate in assessments
+              directly within the study room.
             </p>
           </div>
           <div className="card">
