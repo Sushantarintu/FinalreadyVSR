@@ -36,8 +36,8 @@ const UserEngagement = () => {
     } finally {
       setLoading(false);
     }
-  };
-
+  };  
+  
   return (
     <>
     {isBack?(
@@ -81,14 +81,15 @@ const UserEngagement = () => {
               {engagementData.engagement.map((room, index) => (
                 <li key={index} className="engagement-room" >
                   <p style={{color:"black"}}><strong>Room:</strong> {room.roomId}</p>
+                  {/* <p style={{color:"black"}}><strong>Joined At:</strong> {new Date(room.joinedAt).toLocaleString()}</p> */}
                   <p style={{color:"black"}}><strong>Time Spent:</strong> {room.duration} ({room.totalMinutes} mins)</p>
                 </li>
               ))}
             </ul>
   
             <div className="engagement-total">
-              <p>🕒 Total Engagement Time:</p>
-              <p>{engagementData.grandTotalFormatted} ({engagementData.grandTotalMinutes} minutes)</p>
+              <p style={{color: "blue"}}>🕒 Total Engagement Time:</p>
+              <p style={{color: "blue"}}>{engagementData.grandTotalFormatted} ({engagementData.grandTotalMinutes} minutes)</p>
             </div>
           </div>
         )}
