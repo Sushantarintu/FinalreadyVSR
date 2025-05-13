@@ -20,9 +20,10 @@ const ServicesPage = () => {
             </p>
           </div>
           <div className="service-card">
-            <h3>Speech-to-Text Notes</h3>
+            <h3>Group Test Feature</h3>
             <p>
-              Automatically convert spoken words into digital notes in real-time—perfect for lectures and brainstorming.
+            Admins can create custom questions for group tests, allowing students to participate in assessments
+            directly within the study room.
             </p>
           </div>
           <div className="service-card">
